@@ -1,17 +1,41 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Recycle, Truck, HeartHandshake, Sparkles, Leaf, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Lightbulb,
+  Square,
+  Table as TableIcon,
+  Package,
+  Boxes,
+  BadgeCheck,
+  Recycle,
+  Truck,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import heroImg from "@/assets/hero-goodwill.jpg";
-import { catalogQueryOptions, formatMoney } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Comeback Goods × Goodwill — Returned inventory, mission-priced" },
-      { name: "description", content: "Pallets of returned, overstock and gently-used inventory for Goodwill stores and nonprofit thrift retailers. Better margins, less landfill, more community jobs." },
-      { property: "og:title", content: "Comeback Goods × Goodwill" },
-      { property: "og:description", content: "Pallets of returned, overstock and gently-used inventory for nonprofit thrift retailers." },
+      { title: "Comeback Goods — Tiny Imperfections. Huge Savings." },
+      {
+        name: "description",
+        content:
+          "Sustainably sourced furniture, lighting, and decor at a fraction of wholesale. Shop closeout inventory by category — Lighting, Mirrors, and Tables.",
+      },
+      { property: "og:title", content: "Comeback Goods — Almost Perfect." },
+      {
+        property: "og:description",
+        content:
+          "Sustainable sourcing at a fraction of wholesale. 9,000+ SKUs, 150K+ items in stock.",
+      },
       { property: "og:image", content: heroImg },
       { name: "twitter:image", content: heroImg },
     ],
@@ -20,84 +44,139 @@ export const Route = createFileRoute("/")({
 });
 
 const STATS = [
-  { value: "2.4M", label: "lbs diverted from landfill in 2025", icon: Leaf },
-  { value: "$0.18", label: "average wholesale price per dollar of retail", icon: Sparkles },
-  { value: "140+", label: "nonprofit thrift partners served", icon: HeartHandshake },
-  { value: "Weekly", label: "fresh inventory drops, by category", icon: Truck },
+  { value: "9,000+", label: "SKUs", icon: Boxes },
+  { value: "150K+", label: "Items in Stock", icon: Package },
+  { value: "Furnish More.", label: "Spend Less.", icon: BadgeCheck },
 ];
 
-const OFFERINGS = [
+const CATEGORIES = [
   {
-    title: "Pick-by-SKU pallets",
-    body: "Choose exactly the categories you need — lighting, textiles, housewares, decor. No mystery pallets, no surprises.",
-    accent: "gold" as const,
+    name: "Lighting",
+    desc: "Table lamps, floor lamps, sconces, pendants, and chandeliers.",
+    tags: "Lamps · Sconces · Pendants",
+    accent: "bg-gold",
+    icon: Lightbulb,
   },
   {
-    title: "Mission-friendly pricing",
-    body: "Nonprofit rates start at $0.04 on the dollar. We price for your margin, not against it.",
-    accent: "mission" as const,
+    name: "Mirrors",
+    desc: "Wall mirrors, floor mirrors, and statement pieces.",
+    tags: "Wall · Floor · Accent",
+    accent: "bg-mission",
+    icon: Square,
   },
   {
-    title: "Landfill-diversion reporting",
-    body: "Every pallet ships with a diversion report you can hand to your board, your donors, and your community.",
-    accent: "coral" as const,
+    name: "Tables",
+    desc: "Coffee tables, side tables, dining tables, and consoles.",
+    tags: "Coffee · Side · Dining",
+    accent: "bg-coral",
+    icon: TableIcon,
+  },
+];
+
+const FEATURES = [
+  {
+    title: "Real Savings, Zero Waste",
+    body: "Small batches. Sustainably sourced.",
+    icon: Recycle,
+  },
+  {
+    title: "Curated for How You Actually Buy",
+    body: "Room-ready kits and scheduled refresh programs.",
+    icon: Sparkles,
+  },
+  {
+    title: "Replenishment on Your Schedule",
+    body: "Fast, reliable shipping. Procurement-ready and operationally easy.",
+    icon: Truck,
+  },
+  {
+    title: "Inspected by Comeback",
+    body: "Every item is graded and display-ready.",
+    icon: ShieldCheck,
+  },
+];
+
+const FAQS = [
+  {
+    q: "What condition is the inventory in?",
+    a: "Every item is inspected, graded, and display-ready. Most pieces have only tiny cosmetic imperfections — packaging dings, light scuffs, or open-box returns — that make them ineligible for full-price retail but perfect for resale.",
+  },
+  {
+    q: "How does pricing work?",
+    a: "Pricing is a fraction of wholesale and varies by category and condition grade. Your quote locks in pricing for 14 days.",
+  },
+  {
+    q: "What are the order minimums?",
+    a: "One pallet. No minimum order value and no annual commitment.",
+  },
+  {
+    q: "Can I choose specific styles or categories?",
+    a: "Yes — every SKU is listed individually so you pick exactly what fits your floor. No mystery pallets.",
+  },
+  {
+    q: "What's the minimum commitment?",
+    a: "None. Order a single pallet or set up a recurring drop — it's up to you.",
+  },
+  {
+    q: "How often do I receive shipments?",
+    a: "On your schedule — one-time, monthly, or weekly. We'll match cadence to your sell-through.",
+  },
+  {
+    q: "What brands do you carry?",
+    a: "Rotating selection from major national home, lighting, and lifestyle retailers. Brands shift weekly as new inventory lands.",
   },
 ];
 
 function HomePage() {
-  const { data } = useQuery(catalogQueryOptions);
-  const featured = (data?.items ?? []).slice(0, 3);
-
   return (
     <>
       {/* HERO */}
       <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 opacity-25">
+        <div className="absolute inset-0 opacity-30">
           <img
             src={heroImg}
-            alt="Thrift warehouse with shelves of returned goods"
+            alt="Warehouse aisle stacked with inventory"
             className="h-full w-full object-cover"
             width={1600}
             height={1024}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/75 to-primary/40" />
-        <div className="container relative mx-auto px-4 md:px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-          <div className="max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-gold/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold ring-1 ring-gold/30">
-              <Recycle className="h-3.5 w-3.5" />
-              Built for Goodwill & nonprofit thrift
-            </span>
-            <h1
-              className="mt-6 font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95]"
-              style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/50" />
+        <div className="container relative mx-auto px-4 md:px-6 pt-24 pb-28 md:pt-32 md:pb-36 text-center">
+          <h1
+            className="mx-auto max-w-5xl font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95]"
+            style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
+          >
+            Tiny Imperfections.<br />
+            <span className="marker-highlight marker-highlight-coral">Huge</span>{" "}
+            Savings.
+          </h1>
+          <p className="mt-6 mx-auto max-w-2xl text-lg md:text-xl text-primary-foreground/85">
+            Sustainable sourcing. At a fraction of wholesale.
+          </p>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="hero" size="xl">
+              <Link to="/catalog">
+                Shop Catalog <ArrowRight className="h-5 w-5" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="xl"
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
             >
-              Returns become{" "}
-              <span className="marker-highlight marker-highlight-coral">revenue</span>.<br />
-              Landfill becomes{" "}
-              <span className="marker-highlight marker-highlight-gold">livelihood</span>.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/85">
-              We route customer returns and store overstock from national retailers
-              straight to Goodwill stores and similar nonprofit thrift operations —
-              by the pallet, priced for your mission, sorted to your floor plan.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild variant="hero" size="xl">
-                <Link to="/catalog">
-                  Browse the catalog <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="xl"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-              >
-                <Link to="/contact">
-                  Request a quote
-                </Link>
-              </Button>
-            </div>
+              <a href="mailto:hello@comebackgoods.com?subject=Comeback%20Goods%20Inquiry">
+                Get In Contact <ArrowRight className="h-5 w-5" />
+              </a>
+            </Button>
+          </div>
+          <div className="mt-6">
+            <Link
+              to="/how-it-works"
+              className="inline-block rounded-full bg-primary-foreground/10 px-5 py-2 text-sm font-semibold text-primary-foreground ring-1 ring-primary-foreground/20 hover:bg-primary-foreground/20"
+            >
+              How It Works
+            </Link>
           </div>
         </div>
       </section>
@@ -105,17 +184,17 @@ function HomePage() {
       {/* STATS */}
       <section className="border-y border-border bg-cream">
         <div className="container mx-auto px-4 md:px-6 py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {STATS.map((s) => (
-              <div key={s.label} className="flex items-start gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-mission/15 text-mission">
-                  <s.icon className="h-5 w-5" />
+              <div key={s.value + s.label} className="flex items-center justify-center gap-4">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gold/20 text-gold">
+                  <s.icon className="h-6 w-6" />
                 </span>
                 <div>
-                  <div className="font-display text-2xl md:text-3xl font-black text-primary leading-none">
+                  <div className="font-display text-3xl md:text-4xl font-black text-primary leading-none">
                     {s.value}
                   </div>
-                  <div className="mt-1 text-xs md:text-sm text-muted-foreground leading-snug">
+                  <div className="mt-1 text-sm md:text-base text-muted-foreground">
                     {s.label}
                   </div>
                 </div>
@@ -125,132 +204,106 @@ function HomePage() {
         </div>
       </section>
 
-      {/* WHAT WE OFFER */}
+      {/* SHOP BY CATEGORY */}
       <section className="container mx-auto px-4 md:px-6 py-20 md:py-28">
-        <div className="max-w-2xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-mission">What we offer</span>
-          <h2 className="mt-3 font-display text-4xl md:text-5xl font-black text-primary">
-            Inventory built around <span className="marker-highlight marker-highlight-mission">your mission</span>, not ours.
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Every thrift store is different. We let you pick exactly what hits your
-            floor, so you spend less time sorting donations that never sell — and
-            more time serving your community.
-          </p>
-        </div>
+        <h2 className="text-center font-display text-4xl md:text-5xl font-black text-primary">
+          Shop By Category
+        </h2>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {OFFERINGS.map((o) => (
-            <div
-              key={o.title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.name}
+              to="/catalog"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
             >
-              <div
-                className={
-                  o.accent === "gold"
-                    ? "h-1.5 w-12 rounded-full bg-gold mb-5"
-                    : o.accent === "mission"
-                      ? "h-1.5 w-12 rounded-full bg-mission mb-5"
-                      : "h-1.5 w-12 rounded-full bg-coral mb-5"
-                }
-              />
-              <h3 className="font-display text-xl font-bold text-primary">{o.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{o.body}</p>
-            </div>
+              <div className={`absolute inset-x-0 top-0 h-1.5 ${c.accent}`} />
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-gold/15 text-gold">
+                <c.icon className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 font-display text-2xl font-black text-primary">{c.name}</h3>
+              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{c.desc}</p>
+              <div className="mt-5 inline-flex w-fit rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-muted-foreground">
+                {c.tags}
+              </div>
+              <div className="mt-6 inline-flex items-center gap-1 text-sm font-bold text-primary group-hover:text-mission">
+                Shop {c.name} <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* FEATURED CATALOG */}
-      <section className="bg-secondary/50 border-y border-border">
-        <div className="container mx-auto px-4 md:px-6 py-20 md:py-24">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-mission">In stock now</span>
-              <h2 className="mt-2 font-display text-3xl md:text-4xl font-black text-primary">
-                This week's pallets
-              </h2>
-            </div>
-            <Button asChild variant="outline">
-              <Link to="/catalog">See all SKUs <ArrowRight className="h-4 w-4" /></Link>
+      {/* RUG PROGRAM */}
+      <section className="container mx-auto px-4 md:px-6 pb-20">
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-secondary to-card p-10 md:p-14">
+          <span className="text-xs font-bold uppercase tracking-widest text-mission">
+            Rug Program
+          </span>
+          <h3 className="mt-3 font-display text-3xl md:text-4xl font-black text-primary max-w-2xl">
+            Looking for rugs?
+          </h3>
+          <p className="mt-4 max-w-2xl text-base md:text-lg text-muted-foreground">
+            Visit the Comeback Rug Program — curated closeout rugs, pallet-ready and
+            delivered on your schedule.
+          </p>
+          <div className="mt-7">
+            <Button asChild variant="outline" size="lg">
+              <Link to="/contact">
+                Visit Rug Program <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featured.map((sku) => (
-              <Link
-                key={sku.id}
-                to="/catalog"
-                className="group block overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
+        </div>
+      </section>
+
+      {/* STRETCH YOUR BUDGET */}
+      <section className="bg-secondary/50 border-y border-border">
+        <div className="container mx-auto px-4 md:px-6 py-20 md:py-28">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-display text-4xl md:text-5xl font-black text-primary">
+              Stretch Your Budget,{" "}
+              <span className="marker-highlight marker-highlight-mission">Not</span>{" "}
+              Your Standards.
+            </h2>
+            <p className="mt-5 text-lg text-muted-foreground">
+              Reliable, affordable inventory — without the sourcing headaches.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {FEATURES.map((f) => (
+              <div
+                key={f.title}
+                className="rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img
-                    src={sku.image}
-                    alt={sku.name}
-                    loading="lazy"
-                    width={800}
-                    height={600}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold uppercase tracking-wider text-muted-foreground">{sku.brand}</span>
-                    <span className="rounded-full bg-mission/15 px-2 py-0.5 font-semibold text-mission">
-                      {sku.category}
-                    </span>
-                  </div>
-                  <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">{sku.name}</h3>
-                  <div className="mt-3 flex items-baseline gap-2">
-                    <span className="font-display text-2xl font-black text-primary">
-                      {formatMoney(sku.price)}
-                    </span>
-                    <span className="text-xs text-muted-foreground line-through">
-                      {formatMoney(sku.msrp)} MSRP
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {sku.units} units available
-                  </p>
-                </div>
-              </Link>
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-mission/15 text-mission">
+                  <f.icon className="h-6 w-6" />
+                </span>
+                <h3 className="mt-5 font-display text-lg font-bold text-primary">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.body}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* MISSION QUOTE */}
+      {/* FAQ */}
       <section className="container mx-auto px-4 md:px-6 py-20 md:py-28">
-        <div className="relative max-w-4xl mx-auto rounded-3xl bg-primary text-primary-foreground p-10 md:p-16 overflow-hidden">
-          <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-gold/20 blur-3xl" />
-          <div className="absolute -bottom-12 -left-12 h-48 w-48 rounded-full bg-mission/30 blur-3xl" />
-          <Users className="relative h-10 w-10 text-gold" />
-          <blockquote className="relative mt-6 font-display text-2xl md:text-4xl font-bold leading-tight">
-            "Every pallet we route through Comeback Goods is a pallet that funds
-            another job in our community — and one less truck pulling into a
-            landfill."
-          </blockquote>
-          <div className="relative mt-6 text-sm text-primary-foreground/70">
-            — Regional Director, Goodwill member organization
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="container mx-auto px-4 md:px-6 pb-20">
-        <div className="rounded-3xl border border-border bg-gradient-to-br from-card to-secondary p-10 md:p-14 text-center">
-          <h2 className="font-display text-3xl md:text-5xl font-black text-primary">
-            Ready to see what's on the truck this week?
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-center font-display text-4xl md:text-5xl font-black text-primary">
+            Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Browse live SKUs, build a quote, and we'll confirm availability within one business day.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild variant="hero" size="xl">
-              <Link to="/catalog">Browse catalog</Link>
-            </Button>
-            <Button asChild variant="outline" size="xl">
-              <Link to="/contact">Talk to a partnerships lead</Link>
-            </Button>
-          </div>
+          <Accordion type="single" collapsible className="mt-10">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
+                <AccordionTrigger className="text-left font-display text-lg font-bold text-primary hover:no-underline py-5">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed text-base">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
     </>
