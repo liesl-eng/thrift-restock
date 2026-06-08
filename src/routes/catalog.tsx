@@ -298,7 +298,7 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
             src={sku.image}
             alt={sku.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-105"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
