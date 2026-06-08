@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      import_runs: {
+        Row: {
+          error: string | null
+          finished_at: string | null
+          id: string
+          started_at: string
+          status: string
+          summary: Json
+        }
+        Insert: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          summary?: Json
+        }
+        Update: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          summary?: Json
+        }
+        Relationships: []
+      }
+      live_snapshots: {
+        Row: {
+          approved_at: string
+          brand: string
+          items: Json
+        }
+        Insert: {
+          approved_at?: string
+          brand: string
+          items?: Json
+        }
+        Update: {
+          approved_at?: string
+          brand?: string
+          items?: Json
+        }
+        Relationships: []
+      }
+      staged_snapshots: {
+        Row: {
+          brand: string
+          fetched_at: string
+          items: Json
+          run_id: string | null
+        }
+        Insert: {
+          brand: string
+          fetched_at?: string
+          items?: Json
+          run_id?: string | null
+        }
+        Update: {
+          brand?: string
+          fetched_at?: string
+          items?: Json
+          run_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
