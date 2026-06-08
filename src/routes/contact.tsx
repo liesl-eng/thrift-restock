@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useQuote } from "@/lib/quote-context";
-import { CATALOG, formatMoney } from "@/lib/catalog";
+import { formatMoney } from "@/lib/catalog";
 import { Mail, Phone, MapPin, Minus, Plus, X, ShoppingBag, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 
@@ -73,28 +73,29 @@ function ContactPage() {
               <>
                 <ul className="mt-5 space-y-4 max-h-[420px] overflow-y-auto pr-1">
                   {items.map((item) => {
-                    const sku = CATALOG.find((s) => s.id === item.skuId);
-                    if (!sku) return null;
-                    const lineUnits = sku.unitsPerPallet * item.pallets;
-                    const linePrice = lineUnits * sku.pricePerUnit;
+                    const linePrice = item.qty * item.price;
                     return (
-                      <li key={sku.id} className="flex gap-3">
-                        <img
-                          src={sku.image}
-                          alt={sku.name}
-                          loading="lazy"
-                          width={64}
-                          height={64}
-                          className="h-16 w-16 rounded-md object-cover border border-border"
-                        />
+                      <li key={item.id} className="flex gap-3">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            loading="lazy"
+                            width={64}
+                            height={64}
+                            className="h-16 w-16 rounded-md object-cover border border-border"
+                          />
+                        ) : (
+                          <div className="h-16 w-16 rounded-md border border-border bg-muted" />
+                        )}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <p className="font-semibold text-primary text-sm truncate">{sku.name}</p>
-                              <p className="font-mono text-[11px] text-muted-foreground">{sku.id}</p>
+                            <div className="min-w-0">
+                              <p className="font-semibold text-primary text-sm truncate">{item.name}</p>
+                              <p className="text-[11px] text-muted-foreground">{item.brand}</p>
                             </div>
                             <button
-                              onClick={() => remove(sku.id)}
+                              onClick={() => remove(item.id)}
                               className="text-muted-foreground hover:text-destructive"
                               aria-label="Remove"
                             >
@@ -104,17 +105,17 @@ function ContactPage() {
                           <div className="mt-2 flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1">
                               <button
-                                onClick={() => setQty(sku.id, item.pallets - 1)}
+                                onClick={() => setQty(item.id, item.qty - 1)}
                                 className="grid h-7 w-7 place-items-center rounded-md border border-border hover:bg-secondary"
                                 aria-label="Decrease"
                               >
                                 <Minus className="h-3 w-3" />
                               </button>
                               <span className="w-10 text-center text-sm font-semibold">
-                                {item.pallets} <span className="text-muted-foreground font-normal">pl</span>
+                                {item.qty}
                               </span>
                               <button
-                                onClick={() => setQty(sku.id, item.pallets + 1)}
+                                onClick={() => setQty(item.id, item.qty + 1)}
                                 className="grid h-7 w-7 place-items-center rounded-md border border-border hover:bg-secondary"
                                 aria-label="Increase"
                               >
