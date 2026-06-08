@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Recycle, Truck, HeartHandshake, Sparkles, Leaf, Users } from "lucide-react";
 import heroImg from "@/assets/hero-goodwill.jpg";
-import { CATALOG, formatMoney } from "@/lib/catalog";
+import { catalogQueryOptions, formatMoney } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,7 +45,8 @@ const OFFERINGS = [
 ];
 
 function HomePage() {
-  const featured = CATALOG.slice(0, 3);
+  const { data } = useQuery(catalogQueryOptions);
+  const featured = (data?.items ?? []).slice(0, 3);
 
   return (
     <>
@@ -191,22 +193,22 @@ function HomePage() {
                 </div>
                 <div className="p-5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-mono text-muted-foreground">{sku.id}</span>
+                    <span className="font-semibold uppercase tracking-wider text-muted-foreground">{sku.brand}</span>
                     <span className="rounded-full bg-mission/15 px-2 py-0.5 font-semibold text-mission">
-                      {sku.condition}
+                      {sku.category}
                     </span>
                   </div>
-                  <h3 className="mt-2 font-display text-lg font-bold text-primary">{sku.name}</h3>
+                  <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">{sku.name}</h3>
                   <div className="mt-3 flex items-baseline gap-2">
                     <span className="font-display text-2xl font-black text-primary">
-                      {formatMoney(sku.pricePerUnit)}
+                      {formatMoney(sku.price)}
                     </span>
                     <span className="text-xs text-muted-foreground line-through">
-                      {formatMoney(sku.retailPerUnit)} retail
+                      {formatMoney(sku.msrp)} MSRP
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {sku.unitsPerPallet} units per pallet
+                    {sku.units} units available
                   </p>
                 </div>
               </Link>
