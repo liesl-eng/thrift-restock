@@ -211,8 +211,10 @@ function HomePage() {
         </h2>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Rug Program — featured dark card, parity offering with a different buying experience */}
-          <Link
-            to="/contact"
+          <a
+            href="https://comebackrugs.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative flex flex-col overflow-hidden rounded-2xl bg-primary text-primary-foreground p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
           >
             <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-coral to-gold" />
@@ -231,7 +233,7 @@ function HomePage() {
                 Explore the Program <ArrowRight className="h-4 w-4" />
               </span>
             </div>
-          </Link>
+          </a>
 
           {CATEGORIES.map((c) => (
             <Link
