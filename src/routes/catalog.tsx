@@ -4,13 +4,25 @@ import { useMemo, useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   catalogQueryOptions,
   formatMoney,
   type Sku,
 } from "@/lib/catalog";
 import { useQuote } from "@/lib/quote-context";
-import { Check, Plus, Search, ShoppingBag, Filter, ImageOff } from "lucide-react";
+import { Check, Plus, Search, ShoppingBag, ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
+type Category = (typeof CATEGORIES)[number];
+
+type SortKey = "featured" | "price-asc" | "price-desc" | "savings" | "name";
 
 export const Route = createFileRoute("/catalog")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions),
@@ -48,24 +60,38 @@ function CatalogPage() {
   );
 }
 
+function matchesCategory(sku: Sku, cat: Category): boolean {
+  const c = sku.category?.toLowerCase() ?? "";
+  if (cat === "Lighting") return c.includes("light") || c.includes("lamp") || c.includes("sconce") || c.includes("chandelier");
+  if (cat === "Mirrors") return c.includes("mirror");
+  if (cat === "Tables") return c.includes("table");
+  return false;
+}
+
 function CatalogInner() {
   const { data } = useSuspenseQuery(catalogQueryOptions);
   const all = data.items;
-  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<Category>("Lighting");
   const [brand, setBrand] = useState<string>("All");
-  const [cat, setCat] = useState<string>("All");
+  const [sort, setSort] = useState<SortKey>("featured");
+  const [query, setQuery] = useState("");
   const { add, items } = useQuote();
 
-  const brands = useMemo(() => Array.from(new Set(all.map((s) => s.brand))).sort(), [all]);
-  const categories = useMemo(
-    () => Array.from(new Set(all.map((s) => s.category))).sort(),
-    [all],
+  // Items in the active category
+  const byCategory = useMemo(
+    () => all.filter((s) => matchesCategory(s, category)),
+    [all, category],
+  );
+
+  // Brands available within this category
+  const brands = useMemo(
+    () => Array.from(new Set(byCategory.map((s) => s.brand))).sort(),
+    [byCategory],
   );
 
   const filtered = useMemo(() => {
-    return all.filter((s) => {
+    const list = byCategory.filter((s) => {
       if (brand !== "All" && s.brand !== brand) return false;
-      if (cat !== "All" && s.category !== cat) return false;
       if (query) {
         const q = query.toLowerCase();
         if (!s.name.toLowerCase().includes(q) && !s.brand.toLowerCase().includes(q))
@@ -73,119 +99,190 @@ function CatalogInner() {
       }
       return true;
     });
-  }, [all, query, brand, cat]);
+    const sorted = [...list];
+    switch (sort) {
+      case "price-asc":
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case "price-desc":
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      case "savings":
+        sorted.sort((a, b) => (b.msrp - b.price) / (b.msrp || 1) - (a.msrp - a.price) / (a.msrp || 1));
+        break;
+      case "name":
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "featured":
+      default:
+        sorted.sort((a, b) => (b.units > 0 ? 1 : 0) - (a.units > 0 ? 1 : 0));
+    }
+    return sorted;
+  }, [byCategory, brand, query, sort]);
 
   const inQuote = (id: string) => items.some((i) => i.id === id);
 
+  // Reset brand when switching category
+  const selectCategory = (c: Category) => {
+    setCategory(c);
+    setBrand("All");
+  };
+
   return (
-    <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
-      <div className="max-w-3xl">
-        <span className="text-xs font-bold uppercase tracking-widest text-mission">
-          Live catalog · {all.length.toLocaleString()} SKUs
-        </span>
-        <h1 className="mt-3 font-display text-4xl md:text-6xl font-black text-primary">
-          Pick exactly what your{" "}
-          <span className="marker-highlight marker-highlight-gold">floor needs</span>.
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Every SKU below is pulled live from our warehouse sheet, refreshed
-          daily at noon ET. Build a quote, hit send, and we'll confirm within
-          one business day.
-        </p>
+    <div>
+      {/* Hero */}
+      <div className="container mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-6">
+        <div className="max-w-3xl">
+          <span className="text-xs font-bold uppercase tracking-widest text-mission">
+            Live catalog · {all.length.toLocaleString()} SKUs
+          </span>
+          <h1 className="mt-3 font-display text-4xl md:text-6xl font-black text-primary">
+            Pick exactly what your{" "}
+            <span className="marker-highlight marker-highlight-gold">floor needs</span>.
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Every SKU below is pulled live from our warehouse sheet, refreshed
+            daily at noon ET. Build a quote, hit send, and we'll confirm within
+            one business day.
+          </p>
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className="mt-10 rounded-2xl border border-border bg-card p-4 md:p-5">
-        <div className="flex flex-col lg:flex-row gap-3 lg:items-center">
-          <div className="relative flex-1">
+      {/* Category tabs - navy bar */}
+      <div className="bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-end gap-8 md:gap-12 overflow-x-auto">
+            {CATEGORIES.map((c) => {
+              const active = category === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => selectCategory(c)}
+                  className={cn(
+                    "relative py-5 font-display text-base md:text-lg font-black uppercase tracking-wider whitespace-nowrap transition-colors",
+                    active
+                      ? "text-gold"
+                      : "text-primary-foreground/70 hover:text-primary-foreground",
+                  )}
+                >
+                  {c}
+                  {active && (
+                    <span className="absolute left-0 right-0 -bottom-px h-1 bg-gold rounded-t" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Filter + Sort bar */}
+      <div className="border-b border-border bg-muted/40">
+        <div className="container mx-auto px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center gap-4">
+          <div className="flex items-center gap-3 flex-wrap flex-1">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              Filter by Brand:
+            </span>
+            <BrandChip active={brand === "All"} onClick={() => setBrand("All")}>
+              All
+            </BrandChip>
+            {brands.map((b) => (
+              <BrandChip key={b} active={brand === b} onClick={() => setBrand(b)}>
+                {b}
+              </BrandChip>
+            ))}
+            {brands.length === 0 && (
+              <span className="text-xs text-muted-foreground italic">
+                No brands in this category yet.
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
+              Sort by:
+            </span>
+            <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+              <SelectTrigger className="w-[180px] bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="featured">Featured</SelectItem>
+                <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                <SelectItem value="savings">Biggest savings</SelectItem>
+                <SelectItem value="name">Name: A–Z</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6 py-8 md:py-10">
+        {/* Search */}
+        <div className="mb-6 max-w-md">
+          <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name or brand"
+              placeholder={`Search ${category.toLowerCase()}…`}
               className="pl-9 h-11"
             />
           </div>
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            <Filter className="h-3.5 w-3.5" /> Brand
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            <Chip active={brand === "All"} onClick={() => setBrand("All")}>
-              All
-            </Chip>
-            {brands.map((b) => (
-              <Chip key={b} active={brand === b} onClick={() => setBrand(b)}>
-                {b}
-              </Chip>
-            ))}
-          </div>
         </div>
-        <div className="mt-3 flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            Category
-          </span>
-          <Chip active={cat === "All"} onClick={() => setCat("All")}>
-            All
-          </Chip>
-          {categories.map((c) => (
-            <Chip key={c} active={cat === c} onClick={() => setCat(c)}>
-              {c}
-            </Chip>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((sku) => (
+            <SkuCard
+              key={sku.id}
+              sku={sku}
+              added={inQuote(sku.id)}
+              onAdd={() => add(sku)}
+            />
           ))}
+          {filtered.length === 0 && (
+            <div className="col-span-full rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
+              <p className="font-display text-xl text-primary">
+                No {category.toLowerCase()} match those filters.
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Try clearing a filter, or{" "}
+                <Link to="/contact" className="underline underline-offset-4 hover:text-primary">
+                  ask us what's coming this week
+                </Link>
+                .
+              </p>
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Grid */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((sku) => (
-          <SkuCard
-            key={sku.id}
-            sku={sku}
-            added={inQuote(sku.id)}
-            onAdd={() => add(sku)}
-          />
-        ))}
-        {filtered.length === 0 && (
-          <div className="col-span-full rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
-            <p className="font-display text-xl text-primary">
-              No SKUs match those filters.
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Try clearing a filter, or{" "}
-              <Link to="/contact" className="underline underline-offset-4 hover:text-primary">
-                ask us what's coming this week
-              </Link>
-              .
+        <p className="mt-8 text-xs text-muted-foreground">
+          Inventory refreshed{" "}
+          {new Date(data.fetchedAt).toLocaleString("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          })}
+          . Source: live warehouse sheet, updated daily at 12:00 ET.
+        </p>
+
+        {/* Bottom CTA */}
+        <div className="mt-14 rounded-3xl bg-primary text-primary-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-black">
+              Ready to send your quote?
+            </h2>
+            <p className="mt-2 text-primary-foreground/75 max-w-xl">
+              We confirm availability within one business day and arrange freight
+              to your DC or store.
             </p>
           </div>
-        )}
-      </div>
-
-      <p className="mt-8 text-xs text-muted-foreground">
-        Inventory refreshed{" "}
-        {new Date(data.fetchedAt).toLocaleString("en-US", {
-          dateStyle: "medium",
-          timeStyle: "short",
-        })}
-        . Source: live warehouse sheet, updated daily at 12:00 ET.
-      </p>
-
-      {/* Bottom CTA */}
-      <div className="mt-14 rounded-3xl bg-primary text-primary-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
-        <div>
-          <h2 className="font-display text-2xl md:text-3xl font-black">
-            Ready to send your quote?
-          </h2>
-          <p className="mt-2 text-primary-foreground/75 max-w-xl">
-            We confirm availability within one business day and arrange freight
-            to your DC or store.
-          </p>
+          <Button asChild variant="hero" size="xl">
+            <Link to="/contact">
+              <ShoppingBag className="h-5 w-5" /> Review your quote
+            </Link>
+          </Button>
         </div>
-        <Button asChild variant="hero" size="xl">
-          <Link to="/contact">
-            <ShoppingBag className="h-5 w-5" /> Review your quote
-          </Link>
-        </Button>
       </div>
     </div>
   );
@@ -270,7 +367,7 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
   );
 }
 
-function Chip({
+function BrandChip({
   children,
   active,
   onClick,
@@ -283,10 +380,10 @@ function Chip({
     <button
       onClick={onClick}
       className={cn(
-        "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors border",
+        "rounded-md px-4 py-2 text-sm font-medium transition-colors border bg-card",
         active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "bg-card text-muted-foreground border-border hover:text-primary hover:border-primary/40",
+          ? "border-primary text-primary shadow-sm"
+          : "border-border text-foreground hover:border-primary/40 hover:text-primary",
       )}
     >
       {children}
