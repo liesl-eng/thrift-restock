@@ -24,17 +24,17 @@ import heroImg from "@/assets/hero-goodwill.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Comeback Goods × Goodwill — Returns become revenue." },
+      { title: "Comeback Goods — Tiny Imperfections. Huge Savings." },
       {
         name: "description",
         content:
-          "Sustainably sourced furniture, lighting, and decor for thrift and mission-driven resale partners. Shop closeout inventory by category — Lighting, Mirrors, and Tables.",
+          "Sustainably sourced furniture, lighting, and decor at a fraction of wholesale. Shop closeout inventory by category — Lighting, Mirrors, and Tables.",
       },
-      { property: "og:title", content: "Comeback Goods × Goodwill — Returns become revenue." },
+      { property: "og:title", content: "Comeback Goods — Almost Perfect." },
       {
         property: "og:description",
         content:
-          "Sustainable sourcing for mission-driven resale. 9,000+ SKUs, 150K+ items in stock.",
+          "Sustainable sourcing at a fraction of wholesale. 9,000+ SKUs, 150K+ items in stock.",
       },
       { property: "og:image", content: heroImg },
       { name: "twitter:image", content: heroImg },
@@ -147,12 +147,12 @@ function HomePage() {
             className="mx-auto max-w-5xl font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
           >
-            Returns become revenue.<br />
-            <span className="marker-highlight marker-highlight-coral">Landfill</span>{" "}
-            becomes livelihood.
+            Tiny Imperfections.<br />
+            <span className="marker-highlight marker-highlight-coral">Huge</span>{" "}
+            Savings.
           </h1>
           <p className="mt-6 mx-auto max-w-2xl text-lg md:text-xl text-primary-foreground/85">
-            Sustainably sourced closeout inventory for thrift, mission, and community-driven resale partners.
+            Sustainable sourcing. At a fraction of wholesale.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Button asChild variant="hero" size="xl">
