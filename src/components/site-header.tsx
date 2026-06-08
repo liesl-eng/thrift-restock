@@ -15,7 +15,7 @@ const NAV = [
 export function SiteHeader() {
   const { items, hydrated } = useQuote();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const count = items.reduce((sum, i) => sum + i.pallets, 0);
+  const count = items.length;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
