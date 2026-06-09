@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useQuote } from "@/lib/quote-context";
 import { ShoppingBag, Recycle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import comebackLogo from "@/assets/comeback-logo.avif.asset.json";
+
 
 const NAV = [
   { to: "/", label: "Home" },
