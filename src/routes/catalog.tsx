@@ -32,7 +32,7 @@ const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[
     // it up to visually match the rest of the lineup, then shift it up so the
     // base of the lamp isn't clipped by the card edge.
     match: ["meridian", "black"],
-    imgClassName: "scale-[1.6] -translate-y-6",
+    imgClassName: "scale-[1.6] -translate-y-10",
   },
 ];
 
