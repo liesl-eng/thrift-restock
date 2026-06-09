@@ -51,7 +51,7 @@ function CatalogPage() {
     <Suspense
       fallback={
         <div className="container mx-auto px-4 md:px-6 py-20 text-center">
-          <p className="font-display text-2xl text-primary">Loading live inventory…</p>
+          <p className="text-2xl text-primary">Loading live inventory…</p>
         </div>
       }
     >
