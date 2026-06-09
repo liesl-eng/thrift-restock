@@ -131,40 +131,34 @@ function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 opacity-30">
+      <section className="relative overflow-hidden bg-background text-primary">
+        <div className="absolute inset-0 opacity-[0.08]">
           <img
             src={heroImg}
-            alt="Warehouse aisle stacked with inventory"
+            alt=""
+            aria-hidden="true"
             className="h-full w-full object-cover"
             width={1600}
             height={1024}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
         <div className="container relative mx-auto px-4 md:px-6 pt-24 pb-28 md:pt-32 md:pb-36 text-center">
-          <h1
-            className="mx-auto max-w-5xl font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-[0.95]"
-            style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
-          >
-            SUSTAINABLE SOURCING.<br />
-            PREMIUM RESULTS.
+          <h1 className="mx-auto max-w-5xl font-display text-5xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[1.02] text-primary">
+            <span className="block font-light italic tracking-tight">Sustainable sourcing.</span>
+            <span className="block font-black tracking-tight">Premium results.</span>
           </h1>
-          <p className="mt-6 mx-auto max-w-2xl text-lg md:text-xl text-primary-foreground/85">
+          <p className="mt-8 mx-auto max-w-2xl font-sans text-lg md:text-xl font-light text-primary/75 tracking-wide">
             Inventory with intention.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
             <Button asChild variant="hero" size="xl">
               <Link to="/catalog">
                 Shop Catalog <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <Button
-              asChild
-              size="xl"
-              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-            >
-              <a href="mailto:hello@comebackgoods.com?subject=Comeback%20Goods%20Inquiry">
+            <Button asChild variant="outline" size="xl">
+              <a href="mailto:hello@comebackgoods.com?subject=Comeback%20Restock%20Inquiry">
                 Get In Contact <ArrowRight className="h-5 w-5" />
               </a>
             </Button>
@@ -172,13 +166,14 @@ function HomePage() {
           <div className="mt-6">
             <Link
               to="/how-it-works"
-              className="inline-block rounded-full bg-primary-foreground/10 px-5 py-2 text-sm font-semibold text-primary-foreground ring-1 ring-primary-foreground/20 hover:bg-primary-foreground/20"
+              className="inline-block rounded-full border border-primary/20 px-5 py-2 text-sm font-semibold text-primary/80 hover:bg-primary/5"
             >
               How It Works
             </Link>
           </div>
         </div>
       </section>
+
 
       {/* STATS */}
       <section className="border-y border-border bg-cream">
