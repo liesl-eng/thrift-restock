@@ -29,9 +29,10 @@ const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[
   {
     // The black Meridian source image ships with lots of whitespace around the
     // lamp, so it renders much smaller than the other Meridian variants. Scale
-    // it up to visually match the rest of the lineup.
+    // it up to visually match the rest of the lineup, then shift it up so the
+    // base of the lamp isn't clipped by the card edge.
     match: ["meridian", "black"],
-    imgClassName: "scale-[1.6]",
+    imgClassName: "scale-[1.6] -translate-y-6",
   },
 ];
 
@@ -247,6 +248,15 @@ function CatalogInner() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-10">
+        <p className="mb-4 text-xs text-muted-foreground">
+          Inventory refreshed{" "}
+          {new Date(data.fetchedAt).toLocaleString("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          })}
+          .
+        </p>
+
         {/* Search */}
         <div className="mb-6 max-w-md">
           <div className="relative">
@@ -285,15 +295,6 @@ function CatalogInner() {
             </div>
           )}
         </div>
-
-        <p className="mt-8 text-xs text-muted-foreground">
-          Inventory refreshed{" "}
-          {new Date(data.fetchedAt).toLocaleString("en-US", {
-            dateStyle: "medium",
-            timeStyle: "short",
-          })}
-          . Source: live warehouse sheet, updated daily at 12:00 ET.
-        </p>
 
         {/* Bottom CTA */}
         <div className="mt-14 rounded-3xl bg-primary text-primary-foreground p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
