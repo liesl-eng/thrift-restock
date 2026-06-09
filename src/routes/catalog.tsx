@@ -292,7 +292,7 @@ function CatalogInner() {
             dateStyle: "medium",
             timeStyle: "short",
           })}
-          . Source: live warehouse sheet, updated daily at 12:00 ET.
+          . Live warehouse sheet, updated daily at 12:00 ET.
         </p>
 
         {/* Bottom CTA */}
