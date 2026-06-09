@@ -190,7 +190,7 @@ function HomePage() {
                 <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gold/20 text-gold">
                   <s.icon className="h-6 w-6" />
                 </span>
-                <div>
+                <div className="text-center">
                   <div className="font-display text-3xl md:text-4xl font-black text-primary leading-none">
                     {s.value}
                   </div>
