@@ -21,20 +21,32 @@ import { cn } from "@/lib/utils";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
 
 // Manual image overrides — matched by case-insensitive substring against `${brand} ${name}`.
-const IMAGE_OVERRIDES: { match: string[]; url: string }[] = [
+const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[] = [
   {
     match: ["meridian", "brushed steel"],
     url: meridianBrushedSteel.url,
   },
+  {
+    // The black Meridian source image ships with lots of whitespace around the
+    // lamp, so it renders much smaller than the other Meridian variants. Scale
+    // it up to visually match the rest of the lineup.
+    match: ["meridian", "black"],
+    imgClassName: "scale-[1.6]",
+  },
 ];
 
-function imageForSku(sku: Sku): string {
+function overrideForSku(sku: Sku) {
   const hay = `${sku.brand} ${sku.name}`.toLowerCase();
   for (const o of IMAGE_OVERRIDES) {
-    if (o.match.every((m) => hay.includes(m.toLowerCase()))) return o.url;
+    if (o.match.every((m) => hay.includes(m.toLowerCase()))) return o;
   }
-  return sku.image;
+  return null;
 }
+
+function imageForSku(sku: Sku): string {
+  return overrideForSku(sku)?.url ?? sku.image;
+}
+
 
 const CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
 type Category = (typeof CATEGORIES)[number];
