@@ -21,7 +21,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4 md:px-6">
+      <div className="container mx-auto flex h-16 items-center justify-between gap-4 pl-0 pr-4 md:pr-6">
         <Link to="/" className="flex items-center gap-2 group">
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground transition-transform group-hover:rotate-12">
             <Recycle className="h-5 w-5" />
