@@ -18,6 +18,23 @@ import {
 import { useQuote } from "@/lib/quote-context";
 import { Check, Plus, Search, ShoppingBag, ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
+import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
+
+// Manual image overrides — matched by case-insensitive substring against `${brand} ${name}`.
+const IMAGE_OVERRIDES: { match: string[]; url: string }[] = [
+  {
+    match: ["meridian", "brushed steel"],
+    url: meridianBrushedSteel.url,
+  },
+];
+
+function imageForSku(sku: Sku): string {
+  const hay = `${sku.brand} ${sku.name}`.toLowerCase();
+  for (const o of IMAGE_OVERRIDES) {
+    if (o.match.every((m) => hay.includes(m.toLowerCase()))) return o.url;
+  }
+  return sku.image;
+}
 
 const CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
 type Category = (typeof CATEGORIES)[number];
