@@ -11,9 +11,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact & Quote — Comeback Goods × Goodwill" },
-      { name: "description", content: "Review your pallet quote and send it to the Comeback Goods partnerships team. We respond within one business day." },
-      { property: "og:title", content: "Contact — Comeback Goods × Goodwill" },
+      { title: "Contact & Quote — Comeback Restock" },
+      { name: "description", content: "Review your pallet quote and send it to the Comeback Restock partnerships team. We respond within one business day." },
+      { property: "og:title", content: "Contact — Comeback Restock" },
       { property: "og:description", content: "Send your quote. We respond within one business day." },
     ],
   }),

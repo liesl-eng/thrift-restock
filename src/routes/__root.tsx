@@ -80,10 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Comeback Goods × Goodwill — Returned inventory for thrift retailers" },
+      { title: "Comeback Restock — Returned inventory for thrift retailers" },
       { name: "description", content: "Direct-from-returns pallets of furniture, lighting, textiles and housewares for Goodwill and nonprofit thrift retailers. Less landfill. Better margins." },
-      { name: "author", content: "Comeback Goods" },
-      { property: "og:title", content: "Comeback Goods × Goodwill" },
+      { name: "author", content: "Comeback Restock" },
+      { property: "og:title", content: "Comeback Restock" },
       { property: "og:description", content: "Returned inventory pallets, priced for nonprofit thrift." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

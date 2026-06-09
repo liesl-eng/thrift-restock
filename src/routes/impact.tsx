@@ -7,7 +7,7 @@ export const Route = createFileRoute("/impact")({
     meta: [
       { title: "Impact — Landfill diverted, jobs funded, communities served" },
       { name: "description", content: "Goodwill stores fund jobs through resale. We help them stretch every dollar further while keeping more goods out of landfill." },
-      { property: "og:title", content: "Our Impact — Comeback Goods × Goodwill" },
+      { property: "og:title", content: "Our Impact — Comeback Restock" },
       { property: "og:description", content: "Landfill diverted. Jobs funded. Communities served." },
     ],
   }),

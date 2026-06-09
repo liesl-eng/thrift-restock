@@ -64,7 +64,7 @@ export const Route = createFileRoute("/catalog")({
         content:
           "Live, pick-by-SKU catalog of returned and overstock inventory. Filter by brand and category. Updated daily at noon ET.",
       },
-      { property: "og:title", content: "Comeback Goods Catalog" },
+      { property: "og:title", content: "Comeback Restock Catalog" },
       { property: "og:description", content: "Pick-by-SKU inventory for nonprofit thrift." },
     ],
   }),

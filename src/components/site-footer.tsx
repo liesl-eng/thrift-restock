@@ -38,7 +38,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="mt-12 pt-6 border-t border-primary-foreground/15 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-primary-foreground/60">
-          <p>© {new Date().getFullYear()} Comeback Goods. Built for thrift.</p>
+          <p>© {new Date().getFullYear()} Comeback Restock. Built for thrift.</p>
           <p>Not affiliated with Goodwill Industries International. Branding shown for partner outreach.</p>
         </div>
       </div>

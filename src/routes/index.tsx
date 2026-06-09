@@ -24,13 +24,13 @@ import heroImg from "@/assets/hero-goodwill.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Comeback Goods — Tiny Imperfections. Huge Savings." },
+      { title: "Comeback Restock — Tiny Imperfections. Huge Savings." },
       {
         name: "description",
         content:
           "Sustainably sourced furniture, lighting, and decor at a fraction of wholesale. Shop closeout inventory by category — Lighting, Mirrors, and Tables.",
       },
-      { property: "og:title", content: "Comeback Goods — Almost Perfect." },
+      { property: "og:title", content: "Comeback Restock — Almost Perfect." },
       {
         property: "og:description",
         content:

@@ -6,8 +6,8 @@ export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
       { title: "How It Works — From returns to your sales floor in four steps" },
-      { name: "description", content: "How Comeback Goods routes returned and overstock inventory to Goodwill and other nonprofit thrift stores, by the pallet." },
-      { property: "og:title", content: "How It Works — Comeback Goods × Goodwill" },
+      { name: "description", content: "How Comeback Restock routes returned and overstock inventory to Goodwill and other nonprofit thrift stores, by the pallet." },
+      { property: "og:title", content: "How It Works — Comeback Restock" },
       { property: "og:description", content: "From returns to your floor in four steps." },
     ],
   }),

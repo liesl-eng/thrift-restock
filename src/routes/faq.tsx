@@ -9,9 +9,9 @@ import {
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "FAQ — Comeback Goods × Goodwill" },
+      { title: "FAQ — Comeback Restock" },
       { name: "description", content: "Common questions from nonprofit thrift retailers about pallet sourcing, pricing, freight, and diversion reporting." },
-      { property: "og:title", content: "FAQ — Comeback Goods × Goodwill" },
+      { property: "og:title", content: "FAQ — Comeback Restock" },
       { property: "og:description", content: "Common questions from nonprofit thrift retailers." },
     ],
   }),
