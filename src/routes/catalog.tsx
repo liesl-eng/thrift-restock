@@ -41,7 +41,7 @@ export const Route = createFileRoute("/catalog")({
   component: CatalogPage,
   pendingComponent: () => (
     <div className="container mx-auto px-4 md:px-6 py-20 text-center">
-      <p className="text-2xl text-primary">Loading live inventory…</p>
+      <p className="font-display text-2xl text-primary">Loading live inventory…</p>
     </div>
   ),
 });
