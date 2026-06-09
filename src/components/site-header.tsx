@@ -25,7 +25,7 @@ export function SiteHeader() {
             <Recycle className="h-5 w-5" />
           </span>
           <span className="font-display text-lg font-black uppercase tracking-tight">
-            Comeback <span className="text-mission">×</span> Goodwill
+            Comeback <span className="text-mission">Restock</span>
           </span>
         </Link>
 
