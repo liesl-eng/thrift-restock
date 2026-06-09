@@ -319,7 +319,6 @@ function CatalogInner() {
 }
 
 function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () => void }) {
-  const savings = sku.msrp > sku.price ? Math.round((1 - sku.price / sku.msrp) * 100) : 0;
   const override = overrideForSku(sku);
   const imgSrc = override?.url ?? sku.image;
   return (
@@ -343,11 +342,6 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
           <div className="grid h-full w-full place-items-center text-muted-foreground">
             <ImageOff className="h-8 w-8" />
           </div>
-        )}
-        {savings > 0 && (
-          <span className="absolute top-3 left-3 rounded-full bg-coral px-2.5 py-1 text-xs font-bold text-coral-foreground">
-            {savings}% off MSRP
-          </span>
         )}
       </div>
       <div className="flex flex-1 flex-col p-5">
