@@ -163,8 +163,12 @@ function CatalogInner() {
       {/* Hero */}
       <div className="container mx-auto px-4 md:px-6 pt-12 md:pt-16 pb-6">
         <div className="max-w-3xl">
-          <span className="text-xs font-bold uppercase tracking-widest text-mission">
-            Live catalog · {all.length.toLocaleString()} SKUs
+          <span className="inline-flex items-center gap-2 text-sm md:text-base font-bold uppercase tracking-widest text-mission">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mission opacity-75"></span>
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-mission"></span>
+            </span>
+            Live catalog
           </span>
           <h1 className="mt-3 font-display text-4xl md:text-6xl font-black text-primary">
             Pick exactly what your{" "}
