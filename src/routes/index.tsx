@@ -147,8 +147,18 @@ function HomePage() {
             className="mx-auto max-w-5xl font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-[0.95]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
           >
-            SUSTAINABLE SOURCING.<br />
-            PREMIUM RESULTS.
+            SUSTAINABLE SOURCING.
+            <br />
+            <span className="mt-3 inline-block">
+              <span className="relative inline-block">
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 bottom-[0.08em] h-[0.28em] bg-accent"
+                />
+                <span className="relative">PREMIUM</span>
+              </span>{" "}
+              RESULTS.
+            </span>
           </h1>
           <p className="mt-6 mx-auto max-w-2xl text-lg md:text-xl text-primary-foreground/85">
             Inventory with intention.
