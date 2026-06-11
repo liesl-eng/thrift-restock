@@ -180,7 +180,6 @@ function HomePage() {
               </a>
             </Button>
           </div>
-          </div>
         </div>
       </section>
 
