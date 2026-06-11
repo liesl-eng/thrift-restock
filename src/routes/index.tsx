@@ -186,20 +186,20 @@ function HomePage() {
       {/* STATS */}
       <section className="border-y border-border bg-cream">
         <div className="container mx-auto px-4 md:px-6 py-10">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-x-10">
             {STATS.map((s) => (
               <div
                 key={s.value + s.label}
-                className="flex items-center gap-3 px-2 py-2"
+                className="grid min-w-0 grid-cols-[auto_1fr] items-start gap-x-4 px-2"
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/20 text-gold">
                   <s.icon className="h-4 w-4" />
                 </span>
-                <div className="flex flex-col leading-tight">
-                  <span className="text-[28px] md:text-[32px] font-bold text-primary whitespace-nowrap">
+                <div className="min-w-0 space-y-1 leading-none">
+                  <span className="block text-[28px] font-bold text-primary whitespace-nowrap">
                     {s.value}
                   </span>
-                  <span className="text-[13px] text-muted-foreground">
+                  <span className="block text-[13px] leading-[1.35] text-muted-foreground">
                     {s.label}
                   </span>
                 </div>
