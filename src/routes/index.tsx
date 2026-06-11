@@ -133,16 +133,16 @@ function HomePage() {
     <>
       {/* HERO */}
       <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 opacity-40">
           <img
             src={heroImg}
-            alt="Warehouse aisle stacked with inventory"
+            alt="Curated boutique interior with vintage lamps, ceramics, and linen textiles"
             className="h-full w-full object-cover"
             width={1600}
             height={1024}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/80 to-primary/50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/40" />
         <div className="container relative mx-auto px-4 md:px-6 pt-24 pb-28 md:pt-32 md:pb-36 text-center">
           <h1
             className="mx-auto max-w-5xl font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-[0.95]"
