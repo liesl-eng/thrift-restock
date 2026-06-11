@@ -184,27 +184,30 @@ function HomePage() {
       </section>
 
       {/* STATS */}
-      <section className="border-y border-border bg-cream">
+      <section className="border-y border-border bg-cream" style={{ overflow: 'hidden' }}>
         <div className="container mx-auto px-4 md:px-6 py-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-x-10">
-            {STATS.map((s) => (
-              <div
-                key={s.value + s.label}
-                className="grid min-w-0 grid-cols-[auto_1fr] items-start gap-x-4 px-2"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/20 text-gold">
-                  <s.icon className="h-4 w-4" />
-                </span>
-                <div className="min-w-0 space-y-1 leading-none">
-                  <span className="block text-[28px] font-bold text-primary whitespace-nowrap">
-                    {s.value}
-                  </span>
-                  <span className="block text-[13px] leading-[1.35] text-muted-foreground">
-                    {s.label}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-row justify-around items-start gap-4">
+            <div className="flex flex-col items-center text-center max-w-[200px]">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+                <Recycle className="h-4 w-4" />
+              </span>
+              <h3 className="text-[28px] font-bold text-primary leading-tight">Already 400+ tons</h3>
+              <p className="text-[13px] text-muted-foreground leading-[1.35] mt-1">diverted from landfill</p>
+            </div>
+            <div className="flex flex-col items-center text-center max-w-[200px]">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+                <BadgeCheck className="h-4 w-4" />
+              </span>
+              <h3 className="text-[28px] font-bold text-primary leading-tight">Up to 60%</h3>
+              <p className="text-[13px] text-muted-foreground leading-[1.35] mt-1">below wholesale</p>
+            </div>
+            <div className="flex flex-col items-center text-center max-w-[200px]">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+                <ShieldCheck className="h-4 w-4" />
+              </span>
+              <h3 className="text-[28px] font-bold text-primary leading-tight">New</h3>
+              <p className="text-[13px] text-muted-foreground leading-[1.35] mt-1">inspected and floor ready</p>
+            </div>
           </div>
         </div>
       </section>
