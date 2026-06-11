@@ -19,7 +19,8 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import heroImg from "@/assets/hero-goodwill.jpg";
+import heroAsset from "@/assets/hero-boutique.jpg.asset.json";
+const heroImg = heroAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
