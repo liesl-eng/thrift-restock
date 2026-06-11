@@ -153,14 +153,14 @@ function HomePage() {
               <span className="relative inline-block">
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 bottom-[0.08em] h-[0.28em] bg-accent"
+                  className="absolute inset-x-0 -bottom-[0.12em] h-[0.32em] bg-coral"
                 />
                 <span className="relative">PREMIUM</span>
               </span>{" "}
               RESULTS.
             </span>
           </h1>
-          <p className="mt-6 mx-auto max-w-2xl text-lg md:text-xl text-primary-foreground/85">
+          <p className="mt-6 mx-auto max-w-2xl text-xl md:text-2xl text-primary-foreground/85">
             Inventory with intention.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
