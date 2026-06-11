@@ -150,8 +150,12 @@ function HomePage() {
             SUSTAINABLE SOURCING.
             <br />
             <span className="mt-3 inline-block">
-              <span className="underline decoration-accent decoration-[0.35em] underline-offset-[-0.05em] [text-decoration-skip-ink:none]">
-                PREMIUM
+              <span className="relative inline-block">
+                <span
+                  aria-hidden
+                  className="absolute inset-x-0 bottom-[0.08em] h-[0.28em] bg-accent"
+                />
+                <span className="relative">PREMIUM</span>
               </span>{" "}
               RESULTS.
             </span>
