@@ -145,7 +145,7 @@ function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/40" />
         <div className="container relative mx-auto px-4 md:px-6 pt-24 pb-28 md:pt-32 md:pb-36 text-center">
           <h1
-            className="mx-auto max-w-5xl font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-[0.95]"
+            className="mx-auto max-w-5xl font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
           >
             SUSTAINABLE SOURCING.
