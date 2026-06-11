@@ -150,7 +150,7 @@ function HomePage() {
           >
             SUSTAINABLE SOURCING.
             <br />
-            <span className="mt-3 inline-block">
+            <span className="mt-2 inline-block">
               <span className="relative inline-block">
                 <span
                   aria-hidden
