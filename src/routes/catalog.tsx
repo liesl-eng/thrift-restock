@@ -49,7 +49,7 @@ function imageForSku(sku: Sku): string {
 }
 
 
-const CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
+const CATEGORIES = ["All", "Lighting", "Mirrors", "Tables", "Large Furniture", "Accessories"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "savings" | "name";
