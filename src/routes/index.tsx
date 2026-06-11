@@ -154,7 +154,7 @@ function HomePage() {
               <span className="relative inline-block">
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 -bottom-[0.12em] h-[0.32em] bg-mission"
+                  className="absolute inset-x-0 -bottom-[0.06em] h-[0.32em] bg-coral"
                 />
                 <span className="relative">PREMIUM</span>
               </span>{" "}
