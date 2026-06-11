@@ -180,13 +180,6 @@ function HomePage() {
               </a>
             </Button>
           </div>
-          <div className="mt-4">
-            <Link
-              to="/how-it-works"
-              className="inline-block rounded-full bg-primary-foreground/10 px-5 py-2 text-sm font-semibold text-primary-foreground ring-1 ring-primary-foreground/20 hover:bg-primary-foreground/20"
-            >
-              How It Works
-            </Link>
           </div>
         </div>
       </section>
