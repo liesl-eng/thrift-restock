@@ -91,11 +91,8 @@ function CatalogPage() {
 }
 
 function matchesCategory(sku: Sku, cat: Category): boolean {
-  const c = sku.category?.toLowerCase() ?? "";
-  if (cat === "Lighting") return c.includes("light") || c.includes("lamp") || c.includes("sconce") || c.includes("chandelier");
-  if (cat === "Mirrors") return c.includes("mirror");
-  if (cat === "Tables") return c.includes("table");
-  return false;
+  if (cat === "All") return true;
+  return (sku.category ?? "").trim().toLowerCase() === cat.toLowerCase();
 }
 
 function CatalogInner() {
