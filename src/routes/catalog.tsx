@@ -118,7 +118,7 @@ function CatalogInner() {
 
   const filtered = useMemo(() => {
     const list = byCategory.filter((s) => {
-      if (brand !== "All" && s.brand !== brand) return false;
+      if (brand !== "All" && (s.brand ?? "").trim().toLowerCase() !== brand.trim().toLowerCase()) return false;
       if (query) {
         const q = query.toLowerCase();
         if (!s.name.toLowerCase().includes(q) && !s.brand.toLowerCase().includes(q))
