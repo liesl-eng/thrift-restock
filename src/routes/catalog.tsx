@@ -284,7 +284,7 @@ function CatalogInner() {
           {filtered.length === 0 && (
             <div className="col-span-full rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
               <p className="font-display text-xl text-primary">
-                No {category.toLowerCase()} match those filters.
+                No {category === "All" ? "items" : category.toLowerCase()} match those filters.
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Try clearing a filter, or{" "}
