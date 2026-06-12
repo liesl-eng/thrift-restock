@@ -330,26 +330,6 @@ function Dashboard({
   );
 }
 
-function RunSummary({ summary }: { summary: any }) {
-  if (!summary || typeof summary !== "object") return null;
-  const entries = Object.entries(summary as Record<string, any>);
-  if (entries.length === 0) return <span>—</span>;
-  return (
-    <ul className="space-y-0.5">
-      {entries.map(([brand, s]: [string, any]) => (
-        <li key={brand}>
-          <span className="font-medium text-foreground">{brand}:</span> {s.total} items
-          <span className="text-emerald-600"> +{s.added}</span>
-          <span className="text-coral"> −{s.removed}</span>
-          <span className="text-amber-600"> ~{s.changed}</span>
-          {s.autoApproved && (
-            <span className="ml-1 italic">(auto-approved)</span>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 function PreviewModal({
   password,
