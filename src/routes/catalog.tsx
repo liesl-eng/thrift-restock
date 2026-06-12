@@ -82,10 +82,10 @@ export const Route = createFileRoute("/catalog")({
 });
 
 function matchesCategory(sku: SheetRow, cat: Category): boolean {
-  const c = (sku.category ?? "").trim().toLowerCase();
-  if (!ALLOWED_CATEGORIES.some((a) => a.toLowerCase() === c)) return false;
+  const c = sku.category ?? "";
+  if (!ALLOWED_CATEGORIES.some((a) => a === c)) return false;
   if (cat === "All") return true;
-  return c === cat.toLowerCase();
+  return c === cat;
 }
 
 function isHiddenBrand(sku: SheetRow): boolean {
