@@ -388,7 +388,7 @@ function PreviewModal({
           <div>
             <h3 className="font-display text-xl font-bold">{brand}</h3>
             <p className="text-sm text-muted-foreground">
-              {q.data?.staged?.length ?? 0} staged items ·{" "}
+              {allRows.length} staged items ·{" "}
               <span className="text-emerald-600">+{added}</span>{" "}
               <span className="text-coral">−{removed}</span>{" "}
               <span className="text-amber-600">~{changed}</span>
