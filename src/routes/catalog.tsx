@@ -88,7 +88,11 @@ function isHiddenBrand(sku: SheetRow): boolean {
 
 function CatalogInner() {
   const { products: all, loading, error } = useCatalogProducts();
-  const [category, setCategory] = useState<Category>("All");
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(all.map((s) => s.category ?? "").filter(Boolean))).sort()],
+    [all],
+  );
+  const [category, setCategory] = useState<string>("All");
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("featured");
   const [query, setQuery] = useState("");
