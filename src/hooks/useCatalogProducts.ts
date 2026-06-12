@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchAllProducts, SheetRow } from "@/lib/productSheet";
-import meridianBlack from "@/assets/meridian-black.webp.asset.json";
+
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
 
 // Manual image overrides for specific products (matched by name substring).
 const IMAGE_OVERRIDES: { match: RegExp; url: string }[] = [
   { match: /meridian.*brushed\s*steel/i, url: meridianBrushedSteel.url },
-  { match: /meridian.*black/i,           url: meridianBlack.url },
+  
 ];
 
 function applyOverrides(rows: SheetRow[]): SheetRow[] {
