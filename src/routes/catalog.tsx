@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo, useState, Suspense } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,15 +9,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  catalogQueryOptions,
-  formatMoney,
-  type Sku,
-} from "@/lib/catalog";
+import { useCatalogProducts } from "@/hooks/useCatalogProducts";
+import type { SheetRow } from "@/lib/productSheet";
 import { useQuote } from "@/lib/quote-context";
 import { Check, Plus, Search, ShoppingBag, ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
+
+function formatMoney(n: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: n < 100 ? 2 : 0,
+  }).format(n);
+}
+
+function skuId(sku: SheetRow): string {
+  return `${sku.brand}::${sku.name}`;
+}
 
 // Manual image overrides — matched by case-insensitive substring against `${brand} ${name}`.
 const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[] = [
@@ -27,16 +35,12 @@ const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[
     url: meridianBrushedSteel.url,
   },
   {
-    // The black Meridian source image ships with lots of whitespace around the
-    // lamp, so it renders much smaller than the other Meridian variants. Scale
-    // it up to visually match the rest of the lineup, then shift it up so the
-    // base of the lamp isn't clipped by the card edge.
     match: ["meridian", "black"],
     imgClassName: "scale-[1.6] -translate-y-10",
   },
 ];
 
-function overrideForSku(sku: Sku) {
+function overrideForSku(sku: SheetRow) {
   const hay = `${sku.brand} ${sku.name}`.toLowerCase();
   for (const o of IMAGE_OVERRIDES) {
     if (o.match.every((m) => hay.includes(m.toLowerCase()))) return o;
@@ -44,18 +48,12 @@ function overrideForSku(sku: Sku) {
   return null;
 }
 
-function imageForSku(sku: Sku): string {
-  return overrideForSku(sku)?.url ?? sku.image;
-}
-
-
 const CATEGORIES = ["All", "Lighting", "Mirrors", "Tables", "Large Furniture", "Accessories"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "savings" | "name";
 
 export const Route = createFileRoute("/catalog")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions),
   head: () => ({
     meta: [
       { title: "Catalog — Pick the SKUs your store actually needs" },
@@ -68,49 +66,27 @@ export const Route = createFileRoute("/catalog")({
       { property: "og:description", content: "Pick-by-SKU inventory for nonprofit thrift." },
     ],
   }),
-  component: CatalogPage,
-  pendingComponent: () => (
-    <div className="container mx-auto px-4 md:px-6 py-20 text-center">
-      <p className="font-display text-2xl text-primary">Loading live inventory…</p>
-    </div>
-  ),
+  component: CatalogInner,
 });
 
-function CatalogPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="container mx-auto px-4 md:px-6 py-20 text-center">
-          <p className="font-display text-2xl text-primary">Loading live inventory…</p>
-        </div>
-      }
-    >
-      <CatalogInner />
-    </Suspense>
-  );
-}
-
-function matchesCategory(sku: Sku, cat: Category): boolean {
+function matchesCategory(sku: SheetRow, cat: Category): boolean {
   if (cat === "All") return true;
   return (sku.category ?? "").trim().toLowerCase() === cat.toLowerCase();
 }
 
 function CatalogInner() {
-  const { data } = useSuspenseQuery(catalogQueryOptions);
-  const all = data.items;
+  const { products: all, loading, error } = useCatalogProducts();
   const [category, setCategory] = useState<Category>("All");
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("featured");
   const [query, setQuery] = useState("");
   const { add, items } = useQuote();
 
-  // Items in the active category
   const byCategory = useMemo(
     () => all.filter((s) => matchesCategory(s, category)),
     [all, category],
   );
 
-  // Brands available within this category
   const brands = useMemo(
     () => Array.from(new Set(byCategory.map((s) => s.brand))).sort(),
     [byCategory],
@@ -142,18 +118,43 @@ function CatalogInner() {
         break;
       case "featured":
       default:
-        sorted.sort((a, b) => (b.units > 0 ? 1 : 0) - (a.units > 0 ? 1 : 0));
+        sorted.sort((a, b) => (b.unitsAvailable > 0 ? 1 : 0) - (a.unitsAvailable > 0 ? 1 : 0));
     }
     return sorted;
   }, [byCategory, brand, query, sort]);
 
   const inQuote = (id: string) => items.some((i) => i.id === id);
 
-  // Reset brand when switching category
+  const addSku = (sku: SheetRow) => {
+    add({
+      id: skuId(sku),
+      name: sku.name,
+      brand: sku.brand,
+      category: sku.category ?? "",
+      image: sku.imageUrl,
+      price: sku.price,
+      msrp: sku.msrp,
+      units: sku.unitsAvailable,
+    } as unknown as Parameters<typeof add>[0]);
+  };
+
   const selectCategory = (c: Category) => {
     setCategory(c);
     setBrand("All");
   };
+
+  if (loading)
+    return (
+      <div className="container mx-auto px-4 md:px-6 py-20 text-center">
+        <p className="font-display text-2xl text-primary">Loading live inventory…</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="container mx-auto px-4 md:px-6 py-20 text-center">
+        <p className="text-destructive">{error}</p>
+      </div>
+    );
 
   return (
     <div>
@@ -249,15 +250,6 @@ function CatalogInner() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-10">
-        <p className="mb-4 text-xs text-muted-foreground">
-          Inventory refreshed{" "}
-          {new Date(data.fetchedAt).toLocaleString("en-US", {
-            dateStyle: "medium",
-            timeStyle: "short",
-          })}
-          .
-        </p>
-
         {/* Search */}
         <div className="mb-6 max-w-md">
           <div className="relative">
@@ -273,14 +265,17 @@ function CatalogInner() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((sku) => (
-            <SkuCard
-              key={sku.id}
-              sku={sku}
-              added={inQuote(sku.id)}
-              onAdd={() => add(sku)}
-            />
-          ))}
+          {filtered.map((sku) => {
+            const id = skuId(sku);
+            return (
+              <SkuCard
+                key={id}
+                sku={sku}
+                added={inQuote(id)}
+                onAdd={() => addSku(sku)}
+              />
+            );
+          })}
           {filtered.length === 0 && (
             <div className="col-span-full rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
               <p className="font-display text-xl text-primary">
@@ -319,9 +314,9 @@ function CatalogInner() {
   );
 }
 
-function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () => void }) {
+function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: () => void }) {
   const override = overrideForSku(sku);
-  const imgSrc = override?.url ?? sku.image;
+  const imgSrc = override?.url ?? sku.imageUrl;
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -338,7 +333,6 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
               (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
           />
-
         ) : (
           <div className="grid h-full w-full place-items-center text-muted-foreground">
             <ImageOff className="h-8 w-8" />
@@ -367,9 +361,9 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
           </span>
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
-          {sku.units > 0 ? (
+          {sku.unitsAvailable > 0 ? (
             <>
-              <span className="font-semibold text-foreground">{sku.units}</span> units
+              <span className="font-semibold text-foreground">{sku.unitsAvailable}</span> units
               available
             </>
           ) : (
@@ -379,7 +373,7 @@ function SkuCard({ sku, added, onAdd }: { sku: Sku; added: boolean; onAdd: () =>
 
         <Button
           onClick={onAdd}
-          disabled={sku.units === 0}
+          disabled={sku.unitsAvailable === 0}
           variant={added ? "mission" : "default"}
           className="mt-5 w-full"
         >
