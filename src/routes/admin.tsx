@@ -10,7 +10,7 @@ import {
   approveBrand,
   discardStaged,
 } from "@/lib/catalog.functions";
-import { formatMoney } from "@/lib/catalog-types";
+
 import { Button } from "@/components/ui/button";
 import {
   RefreshCw,
@@ -23,6 +23,14 @@ import {
 } from "lucide-react";
 
 const PW_KEY = "cbg_admin_pw";
+
+function formatMoney(n: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: n < 100 ? 2 : 0,
+  }).format(n);
+}
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
