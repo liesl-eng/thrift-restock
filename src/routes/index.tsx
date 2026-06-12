@@ -143,9 +143,9 @@ function HomePage() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/40" />
-        <div className="container relative mx-auto px-4 md:px-6 pt-14 pb-16 md:pt-20 md:pb-22 text-center">
+        <div className="container relative mx-auto px-4 md:px-6 pt-20 pb-24 md:pt-28 md:pb-32 text-center">
           <h1
-            className="mx-auto max-w-5xl font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95]"
+            className="mx-auto max-w-5xl font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.1]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
           >
             SUSTAINABLE SOURCING.
@@ -161,10 +161,10 @@ function HomePage() {
               RESULTS.
             </span>
           </h1>
-          <p className="mt-4 mx-auto max-w-2xl text-xl md:text-2xl text-primary-foreground/85">
+          <p className="mt-5 mx-auto max-w-2xl text-xl md:text-2xl text-primary-foreground/85">
             Inventory with intention.
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="hero" size="xl">
               <Link to="/catalog">
                 Shop Catalog <ArrowRight className="h-5 w-5" />
