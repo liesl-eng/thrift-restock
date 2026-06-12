@@ -28,6 +28,20 @@ function skuId(sku: SheetRow): string {
   return `${sku.brand}::${sku.name}`;
 }
 
+const DISCOUNT_RATE = 0.8; // 80% off MSRP
+
+function discountedPrice(sku: SheetRow): number {
+  const msrp = sku.msrp ?? 0;
+  return msrp > 0 ? Math.round(msrp * (1 - DISCOUNT_RATE) * 100) / 100 : sku.price ?? 0;
+}
+
+function percentOff(sku: SheetRow): number {
+  const msrp = sku.msrp ?? 0;
+  const price = sku.price ?? 0;
+  if (msrp <= 0) return 0;
+  return Math.round(((msrp - price) / msrp) * 100);
+}
+
 // Manual image overrides — matched by case-insensitive substring against `${brand} ${name}`.
 const IMAGE_OVERRIDES: { match: string[]; url?: string; imgClassName?: string }[] = [
   {
@@ -110,7 +124,7 @@ function CatalogInner() {
       return true;
     });
     const sorted = [...list];
-    const p = (x: SheetRow) => x.price ?? 0;
+    const p = (x: SheetRow) => discountedPrice(x);
     const m = (x: SheetRow) => x.msrp ?? 0;
     switch (sort) {
       case "price-asc":
@@ -141,7 +155,7 @@ function CatalogInner() {
       brand: sku.brand,
       category: sku.category ?? "",
       image: sku.imageUrl,
-      price: sku.price ?? 0,
+      price: discountedPrice(sku),
       msrp: sku.msrp ?? 0,
       units: sku.unitsAvailable,
     } as unknown as Parameters<typeof add>[0]);
@@ -333,6 +347,8 @@ function CatalogInner() {
 function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: () => void }) {
   const override = overrideForSku(sku);
   const imgSrc = override?.url ?? sku.imageUrl;
+  const salePrice = discountedPrice(sku);
+  const off = percentOff(sku);
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -370,11 +386,16 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
 
         <div className="mt-4 flex items-baseline gap-2">
           <span className="font-display text-3xl font-black text-primary">
-            {formatMoney(sku.price ?? 0)}
+            {formatMoney(salePrice)}
           </span>
           <span className="text-sm text-muted-foreground line-through">
             {formatMoney(sku.msrp ?? 0)}
           </span>
+          {off > 0 && (
+            <span className="ml-1 rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">
+              {off}% off
+            </span>
+          )}
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
           {sku.unitsAvailable > 0 ? (
