@@ -90,7 +90,7 @@ function CatalogInner() {
   const { add, items } = useQuote();
 
   const byCategory = useMemo(
-    () => all.filter((s) => matchesCategory(s, category)),
+    () => all.filter((s) => !isHiddenBrand(s) && matchesCategory(s, category)),
     [all, category],
   );
 
