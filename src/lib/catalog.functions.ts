@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import type { Sku } from "./catalog-types";
+import { fetchSheetTab, type BrandTab } from "@/lib/productSheet";
 
 const SPREADSHEET_ID = "1ItM29QVpYh85ESpMLWVJjg13RP-ACHkSPRcGtL21yl8";
 const TABS = [
@@ -69,60 +70,22 @@ type FetchedRow = {
 };
 
 async function fetchFromSheet(): Promise<Map<string, FetchedRow[]>> {
-  const lovableKey = process.env.LOVABLE_API_KEY;
-  const sheetKey = process.env.GOOGLE_SHEETS_API_KEY;
-  if (!lovableKey || !sheetKey) {
-    throw new Error("Google Sheets connector not configured");
-  }
-  const params = TABS.map(
-    (t) => `ranges=${encodeURIComponent(`'${t}'!A2:I`)}`,
-  ).join("&");
-  const url = `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${SPREADSHEET_ID}/values:batchGet?${params}&majorDimension=ROWS`;
-
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": sheetKey,
-    },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Sheets gateway ${res.status}: ${body.slice(0, 200)}`);
-  }
-  const json = (await res.json()) as {
-    valueRanges?: { values?: string[][] }[];
-  };
-
   const byBrand = new Map<string, FetchedRow[]>();
-  json.valueRanges?.forEach((vr, tabIdx) => {
-    const brand = TABS[tabIdx];
-    const list: FetchedRow[] = [];
-    vr.values?.forEach((row) => {
-      const [name, sheetBrand, category, image, price, msrp, , units, updated] =
-        row;
-      if (!name) return;
-      const priceN = parseMoney(price);
-      const msrpN = parseMoney(msrp);
-      if (!priceN) return;
-      const unitsN = parseInt0(units);
-      const finalBrand = (sheetBrand || brand || "").trim();
-      const finalCat = (category || "Uncategorized").trim();
-      const img =
-        image && image !== "N/A" && image.startsWith("http") ? image : "";
-      list.push({
-        name: String(name).trim(),
-        brand: finalBrand,
-        category: finalCat,
-        image_url: img,
-        image_filename: null,
-        price: priceN,
-        msrp: msrpN || priceN,
-        units_available: unitsN,
-        source_last_updated: updated ? new Date(updated).toISOString() : null,
-      });
-    });
-    byBrand.set(brand, list);
-  });
+  for (const tab of TABS) {
+    const rows = await fetchSheetTab(tab as BrandTab);
+    const list: FetchedRow[] = rows.map((r) => ({
+      name: r.name,
+      brand: r.brand,
+      category: r.category ?? "Uncategorized",
+      image_url: r.imageUrl ?? "",
+      image_filename: r.imageFilename,
+      price: r.price ?? 0,
+      msrp: r.msrp ?? r.price ?? 0,
+      units_available: r.unitsAvailable,
+      source_last_updated: r.sourceLastUpdated,
+    }));
+    byBrand.set(tab, list);
+  }
   for (const t of TABS) if (!byBrand.has(t)) byBrand.set(t, []);
   return byBrand;
 }
