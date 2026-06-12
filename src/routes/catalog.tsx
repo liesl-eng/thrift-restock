@@ -77,9 +77,21 @@ export const Route = createFileRoute("/catalog")({
   component: CatalogInner,
 });
 
+const ALLOWED_CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
+
+function categoryMatch(a: string, b: string): boolean {
+  return a.trim().toLowerCase() === b.trim().toLowerCase();
+}
+
+function isAllowedCategory(sku: SheetRow): boolean {
+  const c = sku.category ?? "";
+  return ALLOWED_CATEGORIES.some((a) => categoryMatch(c, a));
+}
+
 function matchesCategory(sku: SheetRow, cat: string): boolean {
+  if (!isAllowedCategory(sku)) return false;
   if (cat === "All") return true;
-  return (sku.category ?? "").trim().toLowerCase() === cat.trim().toLowerCase();
+  return categoryMatch(sku.category ?? "", cat);
 }
 
 function isHiddenBrand(sku: SheetRow): boolean {
@@ -88,10 +100,7 @@ function isHiddenBrand(sku: SheetRow): boolean {
 
 function CatalogInner() {
   const { products: all, loading, error } = useCatalogProducts();
-  const categories = useMemo(
-    () => ["All", ...Array.from(new Set(all.map((s) => s.category ?? "").filter(Boolean))).sort()],
-    [all],
-  );
+  const categories = useMemo(() => ["All", ...ALLOWED_CATEGORIES], []);
   const [category, setCategory] = useState<string>("All");
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("featured");
