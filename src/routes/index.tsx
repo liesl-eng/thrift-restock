@@ -191,21 +191,22 @@ function HomePage() {
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <Recycle className="h-4 w-4" />
               </span>
-              <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">100% kept out of landfill</h3>
+              <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">100%</h3>
+              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Kept out of landfill</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <BadgeCheck className="h-4 w-4" />
               </span>
               <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">Up to 60%</h3>
-              <p className="text-[13px] text-muted-foreground leading-[1.35] mt-1">below wholesale</p>
+              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Below wholesale</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <ShieldCheck className="h-4 w-4" />
               </span>
               <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">New</h3>
-              <p className="text-[13px] text-muted-foreground leading-[1.35] mt-1">inspected and floor ready</p>
+              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Inspected and floor ready</p>
             </div>
           </div>
         </div>
