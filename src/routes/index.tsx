@@ -143,7 +143,7 @@ function HomePage() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/40" />
-        <div className="container relative mx-auto px-4 md:px-6 pt-20 pb-24 md:pt-28 md:pb-32 text-center">
+        <div className="container relative mx-auto px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-16 text-center">
           <h1
             className="mx-auto max-w-5xl font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.1]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
