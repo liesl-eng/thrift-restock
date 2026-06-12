@@ -10,7 +10,7 @@ import {
   approveBrand,
   discardStaged,
 } from "@/lib/catalog.functions";
-import { formatMoney, type Sku } from "@/lib/catalog-types";
+import { formatMoney } from "@/lib/catalog-types";
 import { Button } from "@/components/ui/button";
 import {
   RefreshCw,
@@ -257,42 +257,52 @@ function Dashboard({
             <thead className="bg-secondary/60 text-left">
               <tr>
                 <th className="px-4 py-3 font-semibold">Started</th>
+                <th className="px-4 py-3 font-semibold">Brand</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
                 <th className="px-4 py-3 font-semibold">Details</th>
               </tr>
             </thead>
             <tbody>
-              {(statusQ.data?.runs ?? []).map((r: any) => (
-                <tr key={r.id} className="border-t border-border align-top">
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {new Date(r.started_at).toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={
-                        r.status === "succeeded"
-                          ? "rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700"
-                          : r.status === "failed"
-                            ? "rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive"
-                            : "rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800"
-                      }
-                    >
-                      {r.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {r.error ? (
-                      <span className="text-destructive">{r.error}</span>
-                    ) : (
-                      <RunSummary summary={r.summary} />
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {(statusQ.data?.runs ?? []).map((r: any) => {
+                const statusClass =
+                  r.status === "approved" || r.status === "auto_approved"
+                    ? "rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700"
+                    : r.status === "failed"
+                      ? "rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive"
+                      : r.status === "discarded"
+                        ? "rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground"
+                        : "rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800";
+                return (
+                  <tr key={r.id} className="border-t border-border align-top">
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {new Date(r.started_at).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 font-medium">{r.brand}</td>
+                    <td className="px-4 py-3">
+                      <span className={statusClass}>{r.status}</span>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">
+                      {r.error_message ? (
+                        <span className="text-destructive">{r.error_message}</span>
+                      ) : (
+                        <span>
+                          {r.fetched_count ?? 0} items
+                          <span className="text-emerald-600"> +{r.new_count ?? 0}</span>
+                          <span className="text-coral"> −{r.removed_count ?? 0}</span>
+                          <span className="text-amber-600"> ~{r.changed_count ?? 0}</span>
+                          {r.status === "auto_approved" && (
+                            <span className="ml-1 italic">(auto-approved)</span>
+                          )}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
               {(statusQ.data?.runs ?? []).length === 0 && (
                 <tr>
                   <td
-                    colSpan={3}
+                    colSpan={4}
                     className="px-4 py-10 text-center text-muted-foreground"
                   >
                     No import runs yet.
@@ -320,26 +330,6 @@ function Dashboard({
   );
 }
 
-function RunSummary({ summary }: { summary: any }) {
-  if (!summary || typeof summary !== "object") return null;
-  const entries = Object.entries(summary as Record<string, any>);
-  if (entries.length === 0) return <span>—</span>;
-  return (
-    <ul className="space-y-0.5">
-      {entries.map(([brand, s]: [string, any]) => (
-        <li key={brand}>
-          <span className="font-medium text-foreground">{brand}:</span> {s.total} items
-          <span className="text-emerald-600"> +{s.added}</span>
-          <span className="text-coral"> −{s.removed}</span>
-          <span className="text-amber-600"> ~{s.changed}</span>
-          {s.autoApproved && (
-            <span className="ml-1 italic">(auto-approved)</span>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 function PreviewModal({
   password,
@@ -370,10 +360,10 @@ function PreviewModal({
     onSuccess: onApproved,
   });
 
-  const { added, removed, changed, allRows } = computeDiffRows(
-    q.data?.live ?? [],
-    q.data?.staged ?? [],
-  );
+  const added = q.data?.added ?? 0;
+  const removed = q.data?.removed ?? 0;
+  const changed = q.data?.changed ?? 0;
+  const allRows = q.data?.rows ?? [];
 
   return (
     <div
@@ -388,7 +378,7 @@ function PreviewModal({
           <div>
             <h3 className="font-display text-xl font-bold">{brand}</h3>
             <p className="text-sm text-muted-foreground">
-              {q.data?.staged?.length ?? 0} staged items ·{" "}
+              {allRows.length} staged items ·{" "}
               <span className="text-emerald-600">+{added}</span>{" "}
               <span className="text-coral">−{removed}</span>{" "}
               <span className="text-amber-600">~{changed}</span>
@@ -496,45 +486,4 @@ function ChangeChip({ kind }: { kind: "added" | "removed" | "changed" }) {
       {label}
     </span>
   );
-}
-
-function computeDiffRows(live: Sku[], staged: Sku[]) {
-  const liveMap = new Map(live.map((s) => [s.id, s]));
-  const stagedMap = new Map(staged.map((s) => [s.id, s]));
-  const rows: {
-    kind: "added" | "removed" | "changed";
-    item: Sku;
-    prev?: Sku;
-  }[] = [];
-  let added = 0,
-    removed = 0,
-    changed = 0;
-  for (const s of staged) {
-    const l = liveMap.get(s.id);
-    if (!l) {
-      rows.push({ kind: "added", item: s });
-      added++;
-    } else if (
-      l.price !== s.price ||
-      l.units !== s.units ||
-      l.name !== s.name ||
-      l.image !== s.image ||
-      l.category !== s.category ||
-      l.msrp !== s.msrp
-    ) {
-      rows.push({ kind: "changed", item: s, prev: l });
-      changed++;
-    }
-  }
-  for (const l of live) {
-    if (!stagedMap.has(l.id)) {
-      rows.push({ kind: "removed", item: l });
-      removed++;
-    }
-  }
-  rows.sort((a, b) => {
-    const order = { added: 0, changed: 1, removed: 2 } as const;
-    return order[a.kind] - order[b.kind];
-  });
-  return { added, removed, changed, allRows: rows };
 }
