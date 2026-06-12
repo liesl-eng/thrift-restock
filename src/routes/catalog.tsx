@@ -217,11 +217,12 @@ function CatalogInner() {
             <span className="text-sm text-muted-foreground whitespace-nowrap">
               Filter by Brand:
             </span>
-            <BrandChip active={brand === "All"} onClick={() => setBrand("All")}>
-              All
-            </BrandChip>
             {brands.map((b) => (
-              <BrandChip key={b} active={brand === b} onClick={() => setBrand(b)}>
+              <BrandChip
+                key={b}
+                active={brand === b}
+                onClick={() => setBrand(brand === b ? "All" : b)}
+              >
                 {b}
               </BrandChip>
             ))}
