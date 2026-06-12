@@ -1,0 +1,143 @@
+export const PRODUCT_SHEET_ID = "1ItM29QVpYh85ESpMLWVJjg13RP-ACHkSPRcGtL21yl8";
+
+export type BrandTab =
+  | "Modus Furniture"
+  | "Ferm Living"
+  | "Arteriors Home"
+  | "Havenly"
+  | "Hem"
+  | "Vesta"
+  | "Castlery";
+
+export const BRAND_TABS: BrandTab[] = [
+  "Modus Furniture",
+  "Ferm Living",
+  "Arteriors Home",
+  "Havenly",
+  "Hem",
+  "Vesta",
+  "Castlery",
+];
+
+export interface SheetRow {
+  name: string;
+  brand: string;
+  imageUrl: string | null;
+  imageFilename: string | null;
+  price: number | null;
+  msrp: number | null;
+  discountPct: number | null;
+  unitsAvailable: number;
+  category: string | null;
+  sourceLastUpdated: string | null;
+}
+
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cur = "";
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { cur += '"'; i++; } else inQuotes = false;
+      } else cur += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ",") { row.push(cur); cur = ""; }
+      else if (c === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; }
+      else if (c === "\r") {}
+      else cur += c;
+    }
+  }
+  if (cur.length > 0 || row.length > 0) { row.push(cur); rows.push(row); }
+  return rows;
+}
+
+function cleanMoney(raw: string | undefined): number | null {
+  if (!raw) return null;
+  const s = raw.trim();
+  if (!s || s.toUpperCase() === "N/A") return null;
+  const n = parseFloat(s.replace(/[$,]/g, "").replace(/each/i, "").trim());
+  return Number.isFinite(n) ? n : null;
+}
+
+function cleanPct(raw: string | undefined): number | null {
+  if (!raw) return null;
+  const s = raw.trim();
+  if (!s || s.toUpperCase() === "N/A") return null;
+  const n = parseFloat(s.replace(/[%\s]/g, ""));
+  return Number.isFinite(n) ? n : null;
+}
+
+function cleanInt(raw: string | undefined): number {
+  if (!raw) return 0;
+  const s = raw.trim();
+  if (!s || s.toUpperCase() === "N/A") return 0;
+  const n = parseInt(s.replace(/[^\d-]/g, ""), 10);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function cleanStr(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const s = raw.trim();
+  if (!s || s.toUpperCase() === "N/A") return null;
+  return s;
+}
+
+export async function fetchSheetTab(tab: BrandTab): Promise<SheetRow[]> {
+  const url = `https://docs.google.com/spreadsheets/d/${PRODUCT_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}&_=${Date.now()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch sheet "${tab}" (HTTP ${res.status})`);
+  const text = await res.text();
+  const rows = parseCSV(text);
+  if (rows.length < 2) return [];
+  const header = rows[0].map((h) => h.trim().toLowerCase());
+  const idx = (key: string) => header.findIndex((h) => h === key.toLowerCase());
+  const iName      = idx("Name");
+  const iBrand     = idx("Brand");
+  const iImageUrl  = idx("Image URL");
+  const iImageFile = idx("Image Filename");
+  const iPrice     = idx("Price");
+  const iMsrp      = idx("MSRP");
+  const iDiscount  = idx("Discount %");
+  const iUnits     = idx("Units Available");
+  const iCategory  = idx("Category");
+  const iUpdated   = idx("Last Updated");
+  const out: SheetRow[] = [];
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r || r.every((c) => !c || !c.trim())) continue;
+    const name = cleanStr(r[iName]);
+    if (!name) continue;
+    const rawBrand = cleanStr(r[iBrand]) ?? tab;
+    out.push({
+      name,
+      brand: rawBrand === "Castlery" ? "Mopio" : rawBrand,
+      imageUrl: (() => {
+        const u = iImageUrl >= 0 ? cleanStr(r[iImageUrl]) : null;
+        if (!u) return null;
+        if (/defaultImage\.png/i.test(u)) return null;
+        return u;
+      })(),
+      imageFilename: iImageFile >= 0 ? cleanStr(r[iImageFile]) : null,
+      price:         iPrice    >= 0 ? cleanMoney(r[iPrice])    : null,
+      msrp:          iMsrp     >= 0 ? cleanMoney(r[iMsrp])     : null,
+      discountPct:   iDiscount >= 0 ? cleanPct(r[iDiscount])   : null,
+      unitsAvailable: iUnits   >= 0 ? cleanInt(r[iUnits])      : 0,
+      category:      iCategory >= 0 ? cleanStr(r[iCategory])   : null,
+      sourceLastUpdated: iUpdated >= 0 ? cleanStr(r[iUpdated]) : null,
+    });
+  }
+  return out;
+}
+
+export async function fetchAllProducts(): Promise<SheetRow[]> {
+  const results = await Promise.allSettled(BRAND_TABS.map((t) => fetchSheetTab(t)));
+  const out: SheetRow[] = [];
+  for (const r of results) {
+    if (r.status === "fulfilled") out.push(...r.value);
+  }
+  return out;
+}
