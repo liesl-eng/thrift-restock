@@ -48,7 +48,8 @@ function overrideForSku(sku: SheetRow) {
   return null;
 }
 
-const CATEGORIES = ["All", "Lighting", "Mirrors", "Tables", "Large Furniture", "Accessories"] as const;
+const CATEGORIES = ["All", "Lighting", "Mirrors", "Tables"] as const;
+const ALLOWED_CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "savings" | "name";
