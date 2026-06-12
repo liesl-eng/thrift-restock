@@ -14,69 +14,161 @@ export type Database = {
   }
   public: {
     Tables: {
-      import_runs: {
+      product_import_runs: {
         Row: {
-          error: string | null
+          brand: string
+          changed_count: number | null
+          error_message: string | null
+          fetched_count: number | null
           finished_at: string | null
           id: string
+          new_count: number | null
+          removed_count: number | null
+          skipped_missing_price: number | null
           started_at: string
           status: string
-          summary: Json
+          unchanged_count: number | null
         }
         Insert: {
-          error?: string | null
+          brand: string
+          changed_count?: number | null
+          error_message?: string | null
+          fetched_count?: number | null
           finished_at?: string | null
           id?: string
+          new_count?: number | null
+          removed_count?: number | null
+          skipped_missing_price?: number | null
           started_at?: string
           status?: string
-          summary?: Json
-        }
-        Update: {
-          error?: string | null
-          finished_at?: string | null
-          id?: string
-          started_at?: string
-          status?: string
-          summary?: Json
-        }
-        Relationships: []
-      }
-      live_snapshots: {
-        Row: {
-          approved_at: string
-          brand: string
-          items: Json
-        }
-        Insert: {
-          approved_at?: string
-          brand: string
-          items?: Json
-        }
-        Update: {
-          approved_at?: string
-          brand?: string
-          items?: Json
-        }
-        Relationships: []
-      }
-      staged_snapshots: {
-        Row: {
-          brand: string
-          fetched_at: string
-          items: Json
-          run_id: string | null
-        }
-        Insert: {
-          brand: string
-          fetched_at?: string
-          items?: Json
-          run_id?: string | null
+          unchanged_count?: number | null
         }
         Update: {
           brand?: string
-          fetched_at?: string
-          items?: Json
-          run_id?: string | null
+          changed_count?: number | null
+          error_message?: string | null
+          fetched_count?: number | null
+          finished_at?: string | null
+          id?: string
+          new_count?: number | null
+          removed_count?: number | null
+          skipped_missing_price?: number | null
+          started_at?: string
+          status?: string
+          unchanged_count?: number | null
+        }
+        Relationships: []
+      }
+      product_import_staging: {
+        Row: {
+          brand: string
+          category: string | null
+          created_at: string
+          diff_type: string
+          id: string
+          image_filename: string | null
+          image_url: string | null
+          msrp: number | null
+          name: string
+          previous_image_url: string | null
+          previous_msrp: number | null
+          previous_price: number | null
+          previous_units_available: number | null
+          price: number | null
+          run_id: string
+          source_last_updated: string | null
+          units_available: number
+        }
+        Insert: {
+          brand: string
+          category?: string | null
+          created_at?: string
+          diff_type: string
+          id?: string
+          image_filename?: string | null
+          image_url?: string | null
+          msrp?: number | null
+          name: string
+          previous_image_url?: string | null
+          previous_msrp?: number | null
+          previous_price?: number | null
+          previous_units_available?: number | null
+          price?: number | null
+          run_id: string
+          source_last_updated?: string | null
+          units_available?: number
+        }
+        Update: {
+          brand?: string
+          category?: string | null
+          created_at?: string
+          diff_type?: string
+          id?: string
+          image_filename?: string | null
+          image_url?: string | null
+          msrp?: number | null
+          name?: string
+          previous_image_url?: string | null
+          previous_msrp?: number | null
+          previous_price?: number | null
+          previous_units_available?: number | null
+          price?: number | null
+          run_id?: string
+          source_last_updated?: string | null
+          units_available?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_import_staging_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "product_import_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          brand: string
+          category: string | null
+          created_at: string
+          id: string
+          image_filename: string | null
+          image_url: string | null
+          msrp: number | null
+          name: string
+          price: number | null
+          source_last_updated: string | null
+          units_available: number
+          updated_at: string
+        }
+        Insert: {
+          brand: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_filename?: string | null
+          image_url?: string | null
+          msrp?: number | null
+          name: string
+          price?: number | null
+          source_last_updated?: string | null
+          units_available?: number
+          updated_at?: string
+        }
+        Update: {
+          brand?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_filename?: string | null
+          image_url?: string | null
+          msrp?: number | null
+          name?: string
+          price?: number | null
+          source_last_updated?: string | null
+          units_available?: number
+          updated_at?: string
         }
         Relationships: []
       }
