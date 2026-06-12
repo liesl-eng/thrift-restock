@@ -143,7 +143,7 @@ function HomePage() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/75 to-primary/40" />
-        <div className="container relative mx-auto px-4 md:px-6 pt-10 pb-12 md:pt-14 md:pb-16 text-center">
+        <div className="container relative mx-auto px-4 md:px-6 pt-6 pb-8 md:pt-8 md:pb-10 text-center">
           <h1
             className="mx-auto max-w-5xl font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.1]"
             style={{ textShadow: "3px 3px 0 oklch(0 0 0 / 0.35)" }}
@@ -191,22 +191,22 @@ function HomePage() {
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <Recycle className="h-4 w-4" />
               </span>
-              <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">100%</h3>
-              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Kept out of landfill</p>
+              <h3 className="text-[50px] font-bold text-primary leading-tight whitespace-nowrap">100%</h3>
+              <p className="text-base text-muted-foreground leading-[1.35] mt-1">Kept out of landfill</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <BadgeCheck className="h-4 w-4" />
               </span>
-              <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">Up to 60%</h3>
-              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Below wholesale</p>
+              <h3 className="text-[50px] font-bold text-primary leading-tight whitespace-nowrap">Up to 60%</h3>
+              <p className="text-base text-muted-foreground leading-[1.35] mt-1">Below wholesale</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <ShieldCheck className="h-4 w-4" />
               </span>
-              <h3 className="text-[26px] font-bold text-primary leading-tight whitespace-nowrap">New</h3>
-              <p className="text-sm text-muted-foreground leading-[1.35] mt-1">Inspected and floor ready</p>
+              <h3 className="text-[50px] font-bold text-primary leading-tight whitespace-nowrap">New</h3>
+              <p className="text-base text-muted-foreground leading-[1.35] mt-1">Inspected and floor ready</p>
             </div>
           </div>
         </div>
