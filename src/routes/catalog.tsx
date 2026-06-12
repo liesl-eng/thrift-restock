@@ -44,7 +44,7 @@ function imageForSku(sku: SheetRow): string | null {
 const CATEGORY_TABS = ["All", "Lighting", "Mirrors", "Tables"] as const;
 type Category = (typeof CATEGORY_TABS)[number];
 
-type SortKey = "featured" | "price-asc" | "price-desc" | "name";
+type SortKey = "featured" | "price-asc" | "price-desc" | "name" | "qty-asc" | "qty-desc";
 
 export const Route = createFileRoute("/catalog")({
   head: () => ({
@@ -73,7 +73,7 @@ function CatalogPage() {
   );
   const [category, setCategory] = useState<Category>("All");
   const [brand, setBrand] = useState<string>("All");
-  const [sort, setSort] = useState<SortKey>("featured");
+  const [sort, setSort] = useState<SortKey>("qty-desc");
   const [query, setQuery] = useState("");
   const { add, items } = useQuote();
 
@@ -119,6 +119,12 @@ function CatalogPage() {
         break;
       case "name":
         sorted.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+        break;
+      case "qty-asc":
+        sorted.sort((a, b) => a.unitsAvailable - b.unitsAvailable);
+        break;
+      case "qty-desc":
+        sorted.sort((a, b) => b.unitsAvailable - a.unitsAvailable);
         break;
       case "featured":
       default:
@@ -207,7 +213,9 @@ function CatalogPage() {
             <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
             <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
               <SelectTrigger className="w-[180px] bg-card"><SelectValue /></SelectTrigger>
-              <SelectContent>
+            <SelectContent>
+                <SelectItem value="qty-desc">Quantity: High to Low</SelectItem>
+                <SelectItem value="qty-asc">Quantity: Low to High</SelectItem>
                 <SelectItem value="featured">Featured</SelectItem>
                 <SelectItem value="price-asc">Price: Low to High</SelectItem>
                 <SelectItem value="price-desc">Price: High to Low</SelectItem>
