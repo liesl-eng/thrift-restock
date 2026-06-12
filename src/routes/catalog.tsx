@@ -117,9 +117,14 @@ function CatalogInner() {
   const [query, setQuery] = useState("");
   const { add, items } = useQuote();
 
+  const allowedProducts = useMemo(
+    () => all.filter((s) => !isHiddenBrand(s) && isAllowedCategory(s)),
+    [all],
+  );
+
   const byCategory = useMemo(
-    () => all.filter((s) => !isHiddenBrand(s) && matchesCategory(s, category)),
-    [all, category],
+    () => allowedProducts.filter((s) => matchesCategory(s, category)),
+    [allowedProducts, category],
   );
 
   const brands = useMemo(
