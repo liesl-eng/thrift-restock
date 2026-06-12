@@ -213,7 +213,7 @@ function HomePage() {
       </section>
 
       {/* SHOP BY CATEGORY */}
-      <section className="container mx-auto px-4 md:px-6 pt-20 md:pt-28 pb-10 md:pb-14">
+      <section className="container mx-auto px-4 md:px-6 pt-10 md:pt-14 pb-10 md:pb-14">
         <h2 className="text-center font-display text-4xl md:text-5xl font-black text-primary">
           Shop By Category
         </h2>
