@@ -202,7 +202,7 @@ function CatalogInner() {
       <div className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-end gap-8 md:gap-12 overflow-x-auto">
-            {CATEGORIES.map((c) => {
+            {categories.map((c) => {
               const active = category === c;
               return (
                 <button
