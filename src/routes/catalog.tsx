@@ -59,10 +59,6 @@ function overrideForSku(sku: SheetRow) {
   return null;
 }
 
-const CATEGORIES = ["All", "Lighting", "Mirrors", "Tables"] as const;
-const ALLOWED_CATEGORIES = ["Lighting", "Mirrors", "Tables"] as const;
-type Category = (typeof CATEGORIES)[number];
-
 type SortKey = "featured" | "price-asc" | "price-desc" | "savings" | "name";
 
 export const Route = createFileRoute("/catalog")({
@@ -81,11 +77,9 @@ export const Route = createFileRoute("/catalog")({
   component: CatalogInner,
 });
 
-function matchesCategory(sku: SheetRow, cat: Category): boolean {
-  const c = sku.category ?? "";
-  if (!ALLOWED_CATEGORIES.some((a) => a === c)) return false;
+function matchesCategory(sku: SheetRow, cat: string): boolean {
   if (cat === "All") return true;
-  return c === cat;
+  return (sku.category ?? "").trim().toLowerCase() === cat.trim().toLowerCase();
 }
 
 function isHiddenBrand(sku: SheetRow): boolean {
