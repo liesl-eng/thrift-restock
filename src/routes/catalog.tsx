@@ -61,6 +61,16 @@ export const Route = createFileRoute("/catalog")({
 
 function CatalogPage() {
   const { products, loading, error } = useCatalogProducts();
+  const VISIBLE_CATEGORIES = ["Lighting", "Mirrors", "Tables"];
+  const visibleProducts = useMemo(
+    () =>
+      products.filter(
+        (p) =>
+          VISIBLE_CATEGORIES.includes((p.category ?? "").trim()) &&
+          (p.brand ?? "").trim().toLowerCase() !== "vesta",
+      ),
+    [products],
+  );
   const [category, setCategory] = useState<Category>("All");
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("featured");
