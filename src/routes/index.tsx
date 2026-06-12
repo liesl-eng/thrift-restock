@@ -220,7 +220,7 @@ function HomePage() {
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Rug Program — featured dark card, parity offering with a different buying experience */}
           <a
-            href="https://comebackrugs.com"
+            href="https://comebackrugs.com?from=thrift"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex flex-col overflow-hidden rounded-2xl bg-primary text-primary-foreground p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
