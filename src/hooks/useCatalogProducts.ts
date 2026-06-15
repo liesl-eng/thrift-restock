@@ -50,10 +50,20 @@ const IMAGE_OVERRIDES: { match: RegExp; url: string }[] = [
 
 ];
 
+const CATEGORY_OVERRIDES: { match: RegExp; category: string }[] = [
+  { match: /^Quin Side Table, Light Oak$/, category: "Tables" },
+  { match: /^Quin Coffee Table, Light Oak$/, category: "Tables" },
+];
+
 function applyOverrides(rows: SheetRow[]): SheetRow[] {
   return rows.map((r) => {
-    const ov = IMAGE_OVERRIDES.find((o) => o.match.test(r.name));
-    return ov ? { ...r, imageUrl: ov.url } : r;
+    const imgOv = IMAGE_OVERRIDES.find((o) => o.match.test(r.name));
+    const catOv = CATEGORY_OVERRIDES.find((o) => o.match.test(r.name));
+    return {
+      ...r,
+      imageUrl: imgOv ? imgOv.url : r.imageUrl,
+      category: catOv ? catOv.category : r.category,
+    };
   });
 }
 
