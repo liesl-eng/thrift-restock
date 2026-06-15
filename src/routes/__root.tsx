@@ -135,14 +135,17 @@ function RootComponent() {
       <AuthProvider>
         <QuoteProvider>
           <FavoritesProvider>
-            <div className="flex min-h-screen flex-col">
-              <SiteHeader />
-              <main className="flex-1">
-                <Outlet />
-              </main>
-              <SiteFooter />
-            </div>
-            <Toaster richColors position="top-right" />
+            <OrderProvider>
+              <div className="flex min-h-screen flex-col">
+                <SiteHeader />
+                <main className="flex-1">
+                  <Outlet />
+                </main>
+                <SiteFooter />
+              </div>
+              <OrderBar />
+              <Toaster richColors position="top-right" />
+            </OrderProvider>
           </FavoritesProvider>
         </QuoteProvider>
       </AuthProvider>
