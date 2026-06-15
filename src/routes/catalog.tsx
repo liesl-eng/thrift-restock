@@ -42,7 +42,7 @@ function imageForSku(sku: SheetRow): string | null {
   return sku.imageUrl ?? null;
 }
 
-const CATEGORY_TABS = ["All", "Lighting", "Mirrors", "Tables"] as const;
+const CATEGORY_TABS = ["All", "Tables", "Lighting", "Mirrors"] as const;
 type Category = (typeof CATEGORY_TABS)[number];
 
 type SortKey = "featured" | "price-asc" | "price-desc" | "name" | "qty-asc" | "qty-desc";
@@ -87,7 +87,7 @@ function CatalogPage() {
   const setCategory = (c: Category) =>
     navigate({ search: () => (c === "All" ? {} : { category: c }) });
   const [brand, setBrand] = useState<string>("All");
-  const [sort, setSort] = useState<SortKey>("qty-desc");
+  const [sort, setSort] = useState<SortKey>("price-asc");
   
   const { add, items } = useQuote();
 
@@ -348,7 +348,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           variant={added ? "mission" : "default"}
           className="mt-5 w-full"
         >
-          {added ? <><Check className="h-4 w-4" /> Added — add another</> : <><Plus className="h-4 w-4" /> Add to quote</>}
+          {added ? <><Check className="h-4 w-4" /> Added — add another</> : <><Plus className="h-4 w-4" /> Add to Order</>}
         </Button>
       </div>
     </div>

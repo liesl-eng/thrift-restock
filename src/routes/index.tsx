@@ -52,6 +52,13 @@ const STATS = [
 
 const CATEGORIES = [
   {
+    name: "Tables",
+    desc: "Coffee tables, side tables, dining tables, and consoles.",
+    tags: "Coffee · Side · Dining",
+    accent: "bg-coral",
+    icon: TableIcon,
+  },
+  {
     name: "Lighting",
     desc: "Table lamps, floor lamps, sconces, pendants, and chandeliers.",
     tags: "Lamps · Sconces · Pendants",
@@ -64,13 +71,6 @@ const CATEGORIES = [
     tags: "Wall · Floor · Accent",
     accent: "bg-mission",
     icon: Square,
-  },
-  {
-    name: "Tables",
-    desc: "Coffee tables, side tables, dining tables, and consoles.",
-    tags: "Coffee · Side · Dining",
-    accent: "bg-coral",
-    icon: TableIcon,
   },
 ];
 

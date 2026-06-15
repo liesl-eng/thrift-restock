@@ -15,9 +15,9 @@ type NavItem = {
 
 const NAV: NavItem[] = [
   { to: "/", label: "Home" },
+  { to: "/catalog", label: "Tables", search: { category: "Tables" }, match: "tables" },
   { to: "/catalog", label: "Lighting", search: { category: "Lighting" }, match: "lighting" },
   { to: "/catalog", label: "Mirrors", search: { category: "Mirrors" }, match: "mirrors" },
-  { to: "/catalog", label: "Tables", search: { category: "Tables" }, match: "tables" },
   { to: "/about", label: "About" },
 ];
 
