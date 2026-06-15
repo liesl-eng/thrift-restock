@@ -118,10 +118,10 @@ function CatalogPage() {
     const sorted = [...list];
     switch (sort) {
       case "price-asc":
-        sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+        sorted.sort((a, b) => (a.msrp ?? 0) * 0.2 - (b.msrp ?? 0) * 0.2);
         break;
       case "price-desc":
-        sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+        sorted.sort((a, b) => (b.msrp ?? 0) * 0.2 - (a.msrp ?? 0) * 0.2);
         break;
       case "name":
         sorted.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
