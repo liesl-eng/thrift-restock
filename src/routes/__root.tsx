@@ -15,6 +15,8 @@ import { QuoteProvider } from "@/lib/quote-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -128,17 +130,20 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <QuoteProvider>
-        <FavoritesProvider>
-          <div className="flex min-h-screen flex-col">
-            <SiteHeader />
-            <main className="flex-1">
-              <Outlet />
-            </main>
-            <SiteFooter />
-          </div>
-        </FavoritesProvider>
-      </QuoteProvider>
+      <AuthProvider>
+        <QuoteProvider>
+          <FavoritesProvider>
+            <div className="flex min-h-screen flex-col">
+              <SiteHeader />
+              <main className="flex-1">
+                <Outlet />
+              </main>
+              <SiteFooter />
+            </div>
+            <Toaster richColors position="top-right" />
+          </FavoritesProvider>
+        </QuoteProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

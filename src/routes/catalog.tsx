@@ -15,6 +15,7 @@ import type { SheetRow } from "@/lib/productSheet";
 import { useQuote } from "@/lib/quote-context";
 import { Check, Plus, ShoppingBag, ImageOff, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
 
 function formatMoney(n: number | null): string {
@@ -280,6 +281,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
   const imgSrc = imageForSku(sku);
   const salePrice = sku.msrp != null ? Math.round(sku.msrp * 0.2 * 100) / 100 : sku.price;
   const { toggle, isFavorite, hydrated } = useFavorites();
+  const { user } = useAuth();
   const favId = favoriteIdFor(sku);
   const favored = hydrated && isFavorite(favId);
   const onToggleFav = () => {
@@ -330,11 +332,19 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           <span className="rounded-full bg-mission/15 px-2 py-0.5 text-xs font-semibold text-mission">{sku.category}</span>
         </div>
         <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">{sku.name}</h3>
-        <div className="mt-4 flex items-baseline gap-2">
-          <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
-          <span className="text-sm text-muted-foreground line-through">{formatMoney(sku.msrp)}</span>
-          <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">80% off</span>
-        </div>
+        {user ? (
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
+            <span className="text-sm text-muted-foreground line-through">{formatMoney(sku.msrp)}</span>
+            <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">80% off</span>
+          </div>
+        ) : (
+          <div className="mt-4">
+            <Link to="/auth" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">
+              Sign in to see pricing
+            </Link>
+          </div>
+        )}
         <div className="mt-1 text-xs text-muted-foreground">
           {sku.unitsAvailable > 0 ? (
             <><span className="font-semibold text-foreground">{sku.unitsAvailable}</span> units available</>
