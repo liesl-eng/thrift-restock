@@ -1,8 +1,9 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useQuote } from "@/lib/quote-context";
 import { useFavorites } from "@/lib/favorites-context";
-import { ShoppingBag, Recycle, Heart } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { ShoppingBag, Recycle, Heart, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import comebackLogo from "@/assets/comeback-logo.avif.asset.json";
 
@@ -24,12 +25,19 @@ const NAV: NavItem[] = [
 export function SiteHeader() {
   const { items, hydrated } = useQuote();
   const { items: favItems, hydrated: favHydrated } = useFavorites();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const search = useRouterState({ select: (s) => s.location.search }) as {
     category?: string;
   };
   const count = items.length;
   const favCount = favItems.length;
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate({ to: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
