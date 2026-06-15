@@ -9,9 +9,6 @@ import comebackLogo from "@/assets/comeback-logo.avif.asset.json";
 const NAV = [
   { to: "/", label: "Home" },
   { to: "/catalog", label: "Catalog" },
-  { to: "/impact", label: "Impact" },
-  { to: "/how-it-works", label: "How It Works" },
-  { to: "/faq", label: "FAQ" },
   { to: "/about", label: "About" },
 ] as const;
 
