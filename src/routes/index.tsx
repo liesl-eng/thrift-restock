@@ -167,7 +167,7 @@ function HomePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="hero" size="xl">
               <a href="#shop-by-category">
-                Shop Category <ArrowRight className="h-5 w-5" />
+                Shop Catalog <ArrowRight className="h-5 w-5" />
               </a>
             </Button>
             <Button
@@ -205,7 +205,7 @@ function HomePage() {
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
                 <ShieldCheck className="h-4 w-4" />
               </span>
-              <h3 className="text-[40px] font-bold text-primary leading-tight whitespace-nowrap">New</h3>
+              <h3 className="text-[40px] font-bold text-primary leading-tight whitespace-nowrap">Always New</h3>
               <p className="text-lg text-muted-foreground leading-[1.35] mt-1">Inspected and floor ready</p>
             </div>
           </div>
