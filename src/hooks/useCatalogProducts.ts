@@ -28,7 +28,7 @@ const IMAGE_OVERRIDES: { match: RegExp; url: string }[] = [
 
   { match: /^Quin Side Table, Light Oak$/i, url: "https://mopio.com/cdn/shop/files/01a-MainImage_3d34e815-9381-41e3-a0e4-011620f47e57.jpg" },
 
-  { match: /^Quin Side Table, Black$/i, url: "https://mopio.com/cdn/shop/files/Quinn-Side-Table-Black-Angle.png" },
+  { match: /^Quin Side Table, Black$/i, url: "https://mopio.com/cdn/shop/files/01a-MainImage_7fbd583b-fb43-4eac-8dc4-a16c2097f296.jpg?v=1716199941&width=1500" },
 
   { match: /^Quin Coffee Table, Light Oak$/i, url: "https://mopio.com/cdn/shop/files/01a-MainImage_de8d744b-0a0e-4acd-a5b6-64f8e5e0ddee.jpg" },
 
