@@ -77,11 +77,16 @@ export function useCatalogProducts(): State {
   useEffect(() => {
     if (cache) return;
     let cancelled = false;
+    const start = Date.now();
     if (!inflight) inflight = fetchAllProducts().then(applyOverrides);
     inflight
       .then((rows) => {
         cache = rows;
-        if (!cancelled) setState({ products: rows, loading: false, error: null });
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, 700 - elapsed);
+        setTimeout(() => {
+          if (!cancelled) setState({ products: rows, loading: false, error: null });
+        }, remaining);
       })
       .catch((e) => {
         if (!cancelled)
