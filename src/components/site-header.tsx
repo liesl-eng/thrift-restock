@@ -95,17 +95,6 @@ export function SiteHeader() {
               )}
             </Link>
           </Button>
-          <Button asChild variant="ghost" size="sm" className="relative">
-            <Link to="/contact">
-              <ShoppingBag className="h-4 w-4" />
-              <span className="hidden sm:inline">Quote</span>
-              {hydrated && count > 0 && (
-                <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-coral px-1.5 text-xs font-bold text-coral-foreground">
-                  {count}
-                </span>
-              )}
-            </Link>
-          </Button>
           {user ? (
             <div className="hidden sm:flex items-center gap-2">
               <span className="text-xs text-muted-foreground max-w-[160px] truncate" title={user.email ?? ""}>
