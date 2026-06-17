@@ -251,7 +251,7 @@ function CatalogPage() {
                 key={`${id}-${i}`}
                 sku={sku}
                 added={inOrder(id)}
-                onAdd={() => addSku(sku)}
+                onAdd={(qty) => addSku(sku, qty)}
               />
             );
           })}
