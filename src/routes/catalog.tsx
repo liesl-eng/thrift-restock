@@ -286,13 +286,25 @@ function CatalogPage() {
   );
 }
 
-function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: () => void }) {
+function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: (qty: number) => void }) {
   const imgSrc = imageForSku(sku);
   const salePrice = sku.msrp != null ? Math.round(sku.msrp * 0.2 * 100) / 100 : sku.price;
   const { toggle, isFavorite, hydrated } = useFavorites();
   const { user } = useAuth();
   const favId = favoriteIdFor(sku);
   const favored = hydrated && isFavorite(favId);
+  const [qtyOpen, setQtyOpen] = useState(false);
+  const [qty, setQty] = useState(1);
+  const maxQty = Math.max(1, sku.unitsAvailable);
+  const openQty = () => {
+    setQty(1);
+    setQtyOpen(true);
+  };
+  const confirmAdd = () => {
+    const clamped = Math.max(1, Math.min(qty, maxQty));
+    onAdd(clamped);
+    setQtyOpen(false);
+  };
   const onToggleFav = () => {
     const item: FavoriteItem = {
       id: favId,
