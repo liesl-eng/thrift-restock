@@ -39,11 +39,21 @@ function Benefits() {
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const { user, signIn, signUp } = useAuth();
 
+  const goNext = () => {
+    if (redirect) {
+      window.location.assign(redirect);
+    } else {
+      navigate({ to: "/catalog" });
+    }
+  };
+
   useEffect(() => {
-    if (user) navigate({ to: "/catalog" });
-  }, [user, navigate]);
+    if (user) goNext();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -63,7 +73,7 @@ function AuthPage() {
       toast.error(error.message);
       return;
     }
-    navigate({ to: "/catalog" });
+    goNext();
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -79,7 +89,7 @@ function AuthPage() {
       toast.error(error.message);
       return;
     }
-    navigate({ to: "/catalog" });
+    goNext();
   };
 
   return (
