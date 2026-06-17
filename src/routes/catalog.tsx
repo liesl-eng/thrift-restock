@@ -78,7 +78,7 @@ function CatalogPage() {
       products.filter(
         (p) =>
           VISIBLE_CATEGORIES.includes((p.category ?? "").trim()) &&
-          (p.brand ?? "").trim().toLowerCase() !== "vesta",
+          !["vesta", "havenly"].includes((p.brand ?? "").trim().toLowerCase()),
       ),
     [products],
   );
