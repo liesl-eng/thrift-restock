@@ -6,7 +6,7 @@ type AuthContextValue = {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string) => Promise<{ error: Error | null; needsConfirmation: boolean }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 };
@@ -33,12 +33,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp: AuthContextValue["signUp"] = async (email, password) => {
     const redirectTo = typeof window !== "undefined" ? `${window.location.origin}/catalog` : undefined;
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { emailRedirectTo: redirectTo },
     });
-    return { error: error ?? null };
+    return { error: error ?? null, needsConfirmation: !data?.session };
   };
 
   const signIn: AuthContextValue["signIn"] = async (email, password) => {

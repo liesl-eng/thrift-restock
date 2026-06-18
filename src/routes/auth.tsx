@@ -63,6 +63,7 @@ function AuthPage() {
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirm, setSignupConfirm] = useState("");
   const [signupLoading, setSignupLoading] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,13 +84,17 @@ function AuthPage() {
       return;
     }
     setSignupLoading(true);
-    const { error } = await signUp(signupEmail, signupPassword);
+    const { error, needsConfirmation } = await signUp(signupEmail, signupPassword);
     setSignupLoading(false);
     if (error) {
       toast.error(error.message);
       return;
     }
-    goNext();
+    if (needsConfirmation) {
+      setSignupSuccess(true);
+    } else {
+      goNext();
+    }
   };
 
   return (
@@ -138,47 +143,56 @@ function AuthPage() {
             </TabsContent>
 
             <TabsContent value="signup">
-              <form onSubmit={handleSignup} className="mt-4 space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={signupEmail}
-                    onChange={(e) => setSignupEmail(e.target.value)}
-                  />
+              {signupSuccess ? (
+                <div className="mt-4 space-y-4 text-center">
+                  <h3 className="font-display text-xl font-bold">Check your email</h3>
+                  <p className="text-muted-foreground">
+                    We sent a confirmation link to {signupEmail}. Click the link to activate your account, then come back here to sign in.
+                  </p>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <Input
-                    id="signup-password"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    minLength={6}
-                    value={signupPassword}
-                    onChange={(e) => setSignupPassword(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-confirm">Confirm Password</Label>
-                  <Input
-                    id="signup-confirm"
-                    type="password"
-                    autoComplete="new-password"
-                    required
-                    minLength={6}
-                    value={signupConfirm}
-                    onChange={(e) => setSignupConfirm(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full" disabled={signupLoading}>
-                  {signupLoading ? "Creating account…" : "Create Account"}
-                </Button>
-                <Benefits />
-              </form>
+              ) : (
+                <form onSubmit={handleSignup} className="mt-4 space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-email">Email</Label>
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={signupEmail}
+                      onChange={(e) => setSignupEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-password">Password</Label>
+                    <Input
+                      id="signup-password"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      minLength={6}
+                      value={signupPassword}
+                      onChange={(e) => setSignupPassword(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-confirm">Confirm Password</Label>
+                    <Input
+                      id="signup-confirm"
+                      type="password"
+                      autoComplete="new-password"
+                      required
+                      minLength={6}
+                      value={signupConfirm}
+                      onChange={(e) => setSignupConfirm(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={signupLoading}>
+                    {signupLoading ? "Creating account…" : "Create Account"}
+                  </Button>
+                  <Benefits />
+                </form>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>
