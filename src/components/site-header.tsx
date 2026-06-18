@@ -37,7 +37,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70 py-4">
       <div className="w-full flex h-16 items-center justify-between gap-4 px-5 md:px-6">
         <Link to="/" className="flex items-center gap-2 group mr-6">
           <img
@@ -48,7 +48,7 @@ export function SiteHeader() {
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground transition-transform group-hover:rotate-12">
             <Recycle className="h-5 w-5" />
           </span>
-          <span className="font-display text-lg font-black uppercase tracking-tighter">
+          <span className="font-display text-2xl font-black uppercase tracking-tighter">
             Comeback<span className="text-mission ml-1">Restock</span>
           </span>
         </Link>
@@ -69,7 +69,7 @@ export function SiteHeader() {
                 to={n.to}
                 search={n.search as never}
                 className={cn(
-                  "px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  "px-3 py-2 text-base font-medium rounded-md transition-colors",
                   active
                     ? "text-primary bg-secondary"
                     : "text-muted-foreground hover:text-primary hover:bg-secondary/60",
