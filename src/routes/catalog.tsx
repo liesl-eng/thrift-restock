@@ -381,7 +381,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           onClick={openQty}
           disabled={sku.unitsAvailable === 0}
           variant={added ? "mission" : "default"}
-          className="mt-5 w-full"
+          className="mt-auto w-full"
         >
           {added ? <><Check className="h-4 w-4" /> Added — add more</> : <><Plus className="h-4 w-4" /> Add To Order</>}
         </Button>
