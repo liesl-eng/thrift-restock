@@ -28,6 +28,7 @@ import { Check, Plus, ShoppingBag, ImageOff, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
+import { useInventoryRefreshedAt, formatInventoryRefreshed } from "@/hooks/useInventoryRefreshedAt";
 
 function formatMoney(n: number | null): string {
   if (n == null) return "—";
