@@ -185,24 +185,24 @@ function HomePage() {
 
       {/* STATS */}
       <section className="border-y border-border bg-cream" style={{ overflow: 'hidden' }}>
-        <div className="container mx-auto px-4 md:px-6 py-10">
-          <div className="flex flex-col md:flex-row justify-around items-center gap-8 md:gap-4">
+        <div className="container mx-auto px-4 md:px-6 py-6">
+          <div className="flex flex-col md:flex-row justify-around items-center gap-4 md:gap-2">
             <div className="flex flex-col items-center text-center">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-1.5">
                 <ShieldCheck className="h-4 w-4" />
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight">Always New</h3>
               <p className="text-base text-muted-foreground leading-[1.35] mt-1">Tagged &amp; floor ready</p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-1.5">
                 <BadgeCheck className="h-4 w-4" />
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight">Up to 60%</h3>
               <p className="text-base text-muted-foreground leading-[1.35] mt-1">Below wholesale</p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-1.5">
                 <Recycle className="h-4 w-4" />
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight">100%</h3>
