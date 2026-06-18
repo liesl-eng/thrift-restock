@@ -365,7 +365,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           <span className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">{sku.brand}</span>
           <span className="rounded-full bg-mission/15 px-2 py-0.5 text-xs font-semibold text-mission">{sku.category}</span>
         </div>
-        <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">{sku.name}</h3>
+        <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2 min-h-[3.5rem]">{sku.name}</h3>
         {user ? (
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
