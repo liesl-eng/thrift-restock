@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ShoppingBag,
@@ -11,7 +11,6 @@ import {
   Pencil,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import {
   Sheet,
   SheetContent,
@@ -28,16 +27,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useOrder, ORDER_MOQ } from "@/contexts/OrderContext";
+import { useOrder } from "@/contexts/OrderContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 function money(n: number): string {
@@ -64,15 +56,10 @@ export function OrderBar() {
     count: number;
   } | null>(null);
 
-  const progressPct = useMemo(
-    () => Math.min(100, (totals.grandTotal / ORDER_MOQ) * 100),
-    [totals.grandTotal],
-  );
 
   if (totals.itemCount === 0) return null;
 
   const openSubmit = () => {
-    if (!totals.moqMet) return;
     setStep("info");
     setErrorMsg("");
     setDialogOpen(true);
@@ -180,52 +167,13 @@ export function OrderBar() {
             </div>
           </div>
 
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between text-xs mb-1">
-              <span
-                className={cn(
-                  "font-semibold",
-                  totals.moqMet ? "text-mission" : "text-muted-foreground",
-                )}
-              >
-                {totals.moqMet
-                  ? "✓ Minimum Order Reached"
-                  : "Progress to Minimum Order"}
-              </span>
-              <span className="text-muted-foreground">
-                {money(totals.grandTotal)} / {money(ORDER_MOQ)}
-              </span>
-            </div>
-            <Progress
-              value={progressPct}
-              className={cn(totals.moqMet && "[&>div]:bg-mission")}
-            />
-          </div>
-
           <div className="flex items-center gap-2 md:min-w-[280px] justify-end">
             <Button variant="outline" size="sm" onClick={() => setSheetOpen(true)}>
               View Order
             </Button>
-            {totals.moqMet ? (
-              <Button variant="hero" size="sm" onClick={openSubmit}>
-                Submit Order
-              </Button>
-            ) : (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span tabIndex={0}>
-                      <Button variant="hero" size="sm" disabled>
-                        Submit Order
-                      </Button>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    Add {money(totals.moqRemaining)} more to submit
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
+            <Button variant="hero" size="sm" onClick={openSubmit}>
+              Submit Order
+            </Button>
           </div>
         </div>
       </div>
@@ -244,27 +192,6 @@ export function OrderBar() {
               <span className="font-display text-lg font-bold text-primary">
                 {money(totals.grandTotal)}
               </span>
-            </div>
-            <div className="mt-2">
-              <div className="flex items-center justify-between text-xs mb-1">
-                <span
-                  className={cn(
-                    "font-semibold",
-                    totals.moqMet ? "text-mission" : "text-muted-foreground",
-                  )}
-                >
-                  {totals.moqMet
-                    ? "✓ Minimum Order Reached"
-                    : "Progress to Minimum Order"}
-                </span>
-                <span className="text-muted-foreground">
-                  {money(totals.grandTotal)} / {money(ORDER_MOQ)}
-                </span>
-              </div>
-              <Progress
-                value={progressPct}
-                className={cn(totals.moqMet && "[&>div]:bg-mission")}
-              />
             </div>
           </SheetHeader>
 
@@ -374,23 +301,17 @@ export function OrderBar() {
               <span className="text-muted-foreground">Total Items</span>
               <span className="font-semibold">{totals.itemCount}</span>
             </div>
-            {totals.moqMet ? (
-              <Button
-                variant="hero"
-                size="lg"
-                className="w-full mt-2"
-                onClick={() => {
-                  setSheetOpen(false);
-                  openSubmit();
-                }}
-              >
-                Submit Order
-              </Button>
-            ) : (
-              <Button variant="hero" size="lg" className="w-full mt-2" disabled>
-                Add {money(totals.moqRemaining)} more to submit
-              </Button>
-            )}
+            <Button
+              variant="hero"
+              size="lg"
+              className="w-full mt-2"
+              onClick={() => {
+                setSheetOpen(false);
+                openSubmit();
+              }}
+            >
+              Submit Order
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
