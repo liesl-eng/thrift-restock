@@ -301,26 +301,27 @@ function HomePage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="container mx-auto px-4 md:px-6 py-20 md:py-28">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-center font-display text-4xl md:text-5xl font-black text-primary">
-            Frequently Asked Questions
-          </h2>
-          <Accordion type="single" collapsible className="mt-10">
-            {FAQS.map((f, i) => (
-              <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
-                <AccordionTrigger className="text-left font-display text-lg font-bold text-primary hover:no-underline py-5">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed text-base">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
+      {false && (
+        <section className="container mx-auto px-4 md:px-6 py-20 md:py-28">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-center font-display text-4xl md:text-5xl font-black text-primary">
+              Frequently Asked Questions
+            </h2>
+            <Accordion type="single" collapsible className="mt-10">
+              {FAQS.map((f, i) => (
+                <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
+                  <AccordionTrigger className="text-left font-display text-lg font-bold text-primary hover:no-underline py-5">
+                    {f.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed text-base">
+                    {f.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+      )}
     </>
   );
 }
