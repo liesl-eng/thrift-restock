@@ -21,7 +21,9 @@ import {
 } from "@/components/ui/select";
 import { useCatalogProducts } from "@/hooks/useCatalogProducts";
 import type { SheetRow } from "@/lib/productSheet";
+import { computeSalePrice } from "@/lib/catalog-types";
 import { useOrder } from "@/contexts/OrderContext";
+
 import { Check, Plus, ShoppingBag, ImageOff, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -167,7 +169,7 @@ function CatalogPage() {
       brand: sku.brand ?? "",
       imageUrl: sku.imageUrl ?? "",
       msrp,
-      yourPrice: Math.round(msrp * 0.2 * 100) / 100,
+      yourPrice: Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100,
       unitsAvailable: sku.unitsAvailable,
       quantity,
     });
@@ -288,7 +290,7 @@ function CatalogPage() {
 
 function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: (qty: number) => void }) {
   const imgSrc = imageForSku(sku);
-  const salePrice = sku.msrp != null ? Math.round(sku.msrp * 0.2 * 100) / 100 : sku.price;
+  const salePrice = Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100;
   const { toggle, isFavorite, hydrated } = useFavorites();
   const { user } = useAuth();
   const favId = favoriteIdFor(sku);
@@ -357,7 +359,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
             <span className="text-sm text-muted-foreground line-through">{formatMoney(sku.msrp)}</span>
-            <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">80% off</span>
+            <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">{sku.msrp ? Math.round((1 - salePrice / sku.msrp) * 100) : 0}% off</span>
           </div>
         ) : (
           <div className="mt-4">
