@@ -11,13 +11,12 @@ import {
   Lightbulb,
   Square,
   Table as TableIcon,
-  Package,
   Boxes,
   BadgeCheck,
   Recycle,
-  Truck,
   ShieldCheck,
-  Sparkles,
+  TrendingDown,
+  Leaf,
 } from "lucide-react";
 import heroAsset from "@/assets/hero-boutique.jpg.asset.json";
 const heroImg = heroAsset.url;
@@ -76,24 +75,25 @@ const CATEGORIES = [
 
 const FEATURES = [
   {
-    title: "Real Savings, Zero Waste",
-    body: "Small batches. Sustainably sourced.",
-    icon: Recycle,
+    title: "Curated & Floor-Ready",
+    body: "Inspected inventory sourced directly from brand warehouses.",
+    icon: BadgeCheck,
+    bg: "bg-mission/10",
+    fg: "text-mission",
   },
   {
-    title: "Curated for How You Actually Buy",
-    body: "Room-ready kits and scheduled refresh programs.",
-    icon: Sparkles,
+    title: "Up to 60% Below Wholesale",
+    body: "Stretch your budget without sacrificing quality.",
+    icon: TrendingDown,
+    bg: "bg-emerald-500/10",
+    fg: "text-emerald-600",
   },
   {
-    title: "Replenishment on Your Schedule",
-    body: "Fast, reliable shipping. Procurement-ready and operationally easy.",
-    icon: Truck,
-  },
-  {
-    title: "Inspected by Comeback",
-    body: "Every item is graded and display-ready.",
-    icon: ShieldCheck,
+    title: "100% Sustainable",
+    body: "Every item diverted from the waste stream — not a single piece to landfill.",
+    icon: Leaf,
+    bg: "bg-primary/10",
+    fg: "text-primary",
   },
 ];
 
@@ -282,13 +282,15 @@ function HomePage() {
               Reliable, affordable inventory — without the sourcing headaches.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
             {FEATURES.map((f) => (
               <div
                 key={f.title}
                 className="rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
               >
-                <span className="grid h-12 w-12 place-items-center rounded-full bg-mission/15 text-mission">
+                <span
+                  className={`grid h-12 w-12 place-items-center rounded-full ${f.bg} ${f.fg}`}
+                >
                   <f.icon className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 font-display text-lg font-bold text-primary">{f.title}</h3>
