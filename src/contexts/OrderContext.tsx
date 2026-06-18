@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 
-export const ORDER_MOQ = 8000;
+export const ORDER_MOQ = 0;
 const STORAGE_KEY = "comeback_restock_order";
 
 export type OrderItem = {
