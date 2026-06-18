@@ -373,7 +373,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
             <span className="rounded-full bg-gold px-2 py-0.5 text-xs font-bold text-gold-foreground">{sku.msrp ? Math.round((1 - salePrice / sku.msrp) * 100) : 0}% off</span>
           </div>
         ) : (
-          <div className="mt-4">
+          <div className="mt-3">
             <Link
               to="/auth"
               search={{ redirect: typeof window !== "undefined" ? window.location.pathname + window.location.search : "/catalog" }}
@@ -383,7 +383,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
             </Link>
           </div>
         )}
-        <div className="mt-1 text-xs text-muted-foreground">
+        <div className="mt-3 text-xs text-muted-foreground">
           {sku.unitsAvailable > 0 ? (
             <><span className="font-semibold text-foreground">{sku.unitsAvailable}</span> units available</>
           ) : (
@@ -394,7 +394,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           onClick={openQty}
           disabled={sku.unitsAvailable === 0}
           variant={added ? "mission" : "default"}
-          className="mt-auto w-full"
+          className="mt-4 w-full"
         >
           {added ? <><Check className="h-4 w-4" /> Added — add more</> : <><Plus className="h-4 w-4" /> Add To Order</>}
         </Button>
