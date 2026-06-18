@@ -192,7 +192,7 @@ function HomePage() {
                 <ShieldCheck className="h-4 w-4" />
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight">Always New</h3>
-              <p className="text-base text-muted-foreground leading-[1.35] mt-1">Tagged &amp; floor ready</p>
+              <p className="text-base text-muted-foreground leading-[1.35] mt-1">Curated, tagged &amp; floor-ready</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-1.5">
