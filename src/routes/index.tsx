@@ -11,13 +11,12 @@ import {
   Lightbulb,
   Square,
   Table as TableIcon,
-  Package,
   Boxes,
   BadgeCheck,
   Recycle,
-  Truck,
   ShieldCheck,
-  Sparkles,
+  TrendingDown,
+  Leaf,
 } from "lucide-react";
 import heroAsset from "@/assets/hero-boutique.jpg.asset.json";
 const heroImg = heroAsset.url;
