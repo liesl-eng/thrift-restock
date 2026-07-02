@@ -195,28 +195,26 @@ function CatalogPage() {
   return (
     <div>
 
-      <div className="border-b border-border bg-muted/40">
-        <div className="container mx-auto px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center gap-4">
-          <div className="flex items-center gap-3 flex-wrap flex-1">
-            <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by Brand:</span>
-            <BrandChip active={brand === "All"} onClick={() => setBrand("All")}>All Products</BrandChip>
-            {brands.map((b) => (
-              <BrandChip key={b} active={brand === b} onClick={() => setBrand(b)}>{b}</BrandChip>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
-            <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
-              <SelectTrigger className="w-[180px] bg-card"><SelectValue /></SelectTrigger>
+      <div className="sticky top-[73px] z-30 bg-background border-b border-border py-3 px-4 flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap flex-1">
+          <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by Brand:</span>
+          <BrandChip active={brand === "All"} onClick={() => setBrand("All")}>All Products</BrandChip>
+          {brands.map((b) => (
+            <BrandChip key={b} active={brand === b} onClick={() => setBrand(b)}>{b}</BrandChip>
+          ))}
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
+          <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+            <SelectTrigger className="min-w-[200px] bg-card"><SelectValue /></SelectTrigger>
             <SelectContent>
-                <SelectItem value="qty-desc">Quantity: High to Low</SelectItem>
-                <SelectItem value="qty-asc">Quantity: Low to High</SelectItem>
-                <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                <SelectItem value="name">Name: A–Z</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+              <SelectItem value="qty-desc">Quantity: High to Low</SelectItem>
+              <SelectItem value="qty-asc">Quantity: Low to High</SelectItem>
+              <SelectItem value="price-asc">Price: Low to High</SelectItem>
+              <SelectItem value="price-desc">Price: High to Low</SelectItem>
+              <SelectItem value="name">Name: A–Z</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
