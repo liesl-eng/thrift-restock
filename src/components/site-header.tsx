@@ -4,7 +4,7 @@ import { useFavorites } from "@/lib/favorites-context";
 import { useAuth } from "@/contexts/AuthContext";
 import { Recycle, Heart, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
-import comebackLogo from "@/assets/comeback-logo.avif.asset.json";
+
 
 type NavItem = {
   to: "/" | "/catalog" | "/about";
