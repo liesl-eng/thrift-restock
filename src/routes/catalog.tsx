@@ -194,34 +194,8 @@ function CatalogPage() {
 
   return (
     <div>
-      <div className="bg-primary text-primary-foreground sticky top-24 z-30">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-end gap-8 md:gap-12 overflow-x-auto">
-            {CATEGORY_TABS.map((c) => {
-              const active = category === c;
-              return (
-                <button
-                  key={c}
-                  onClick={() => selectCategory(c)}
-                  className={cn(
-                    "relative py-5 font-display text-base md:text-lg font-black uppercase tracking-wider whitespace-nowrap transition-colors",
-                    active
-                      ? "text-gold"
-                      : "text-primary-foreground/70 hover:text-primary-foreground",
-                  )}
-                >
-                  {c}
-                  {active && (
-                    <span className="absolute left-0 right-0 -bottom-px h-1 bg-gold rounded-t" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
 
-      <div className="border-b border-border bg-muted/40 sticky top-40 z-20">
+      <div className="border-b border-border bg-muted/40">
         <div className="container mx-auto px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center gap-4">
           <div className="flex items-center gap-3 flex-wrap flex-1">
             <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by Brand:</span>
