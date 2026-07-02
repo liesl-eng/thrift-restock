@@ -40,11 +40,6 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70 py-4">
       <div className="w-full flex h-16 items-center justify-between gap-4 px-5 md:px-6">
         <Link to="/" className="flex items-center gap-2 group mr-6">
-          <img
-            src={comebackLogo.url}
-            alt="Comeback Goods"
-            className="h-9 w-9 rounded-full object-cover"
-          />
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground transition-transform group-hover:rotate-12">
             <Recycle className="h-5 w-5" />
           </span>
