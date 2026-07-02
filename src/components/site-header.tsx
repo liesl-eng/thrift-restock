@@ -64,10 +64,13 @@ export function SiteHeader() {
                 to={n.to}
                 search={n.search as never}
                 className={cn(
-                  "px-3 py-2 text-base font-medium rounded-md transition-colors",
-                  active
-                    ? "text-primary bg-secondary"
-                    : "text-muted-foreground hover:text-primary hover:bg-secondary/60",
+                  n.match != null
+                    ? active
+                      ? "px-3 py-1.5 text-base font-semibold rounded-full border border-primary bg-primary text-primary-foreground"
+                      : "px-3 py-1.5 text-base font-semibold rounded-full border border-border text-primary hover:border-mission hover:text-mission transition-colors"
+                    : active
+                      ? "px-3 py-2 text-base font-medium rounded-md text-primary bg-secondary transition-colors"
+                      : "px-3 py-2 text-base font-medium rounded-md text-muted-foreground hover:text-primary hover:bg-secondary/60 transition-colors",
                 )}
               >
                 {n.label}
