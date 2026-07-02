@@ -194,7 +194,7 @@ function CatalogPage() {
 
   return (
     <div>
-      <div className="bg-primary text-primary-foreground sticky top-0 z-30 bg-background">
+      <div className="bg-primary text-primary-foreground sticky top-24 z-30">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-end gap-8 md:gap-12 overflow-x-auto">
             {CATEGORY_TABS.map((c) => {
@@ -221,7 +221,7 @@ function CatalogPage() {
         </div>
       </div>
 
-      <div className="border-b border-border bg-muted/40 sticky top-[57px] z-20 bg-background border-b border-border">
+      <div className="border-b border-border bg-muted/40 sticky top-40 z-20">
         <div className="container mx-auto px-4 md:px-6 py-4 flex flex-col lg:flex-row lg:items-center gap-4">
           <div className="flex items-center gap-3 flex-wrap flex-1">
             <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by Brand:</span>
