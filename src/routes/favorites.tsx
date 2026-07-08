@@ -28,7 +28,7 @@ export const Route = createFileRoute("/favorites")({
 
 function FavoritesPage() {
   const { items, remove, hydrated } = useFavorites();
-  const { user } = useAuth();
+  const { unlocked, openPrompt } = usePricingGate();
 
   return (
     <div className="container mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
