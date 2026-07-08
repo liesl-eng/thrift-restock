@@ -2,7 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/lib/favorites-context";
 import { useAuth } from "@/contexts/AuthContext";
-import { Recycle, Heart, LogOut } from "lucide-react";
+import { Recycle, Heart, LogOut, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
@@ -81,9 +81,10 @@ export function SiteHeader() {
             href="https://comebackrugs.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-1.5 text-base font-bold rounded-full bg-coral text-coral-foreground hover:bg-coral/90 transition-colors shadow-sm"
+            className="inline-flex items-center gap-1 px-3 py-2 text-base font-medium rounded-md text-muted-foreground hover:text-primary hover:bg-secondary/60 transition-colors"
           >
             Rug Program
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
           </a>
         </nav>
 
