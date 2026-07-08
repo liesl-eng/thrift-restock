@@ -416,7 +416,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
               <Plus className="h-4 w-4" />
             </Button>
           </div>
-          {user && salePrice != null && (
+          {unlocked && salePrice != null && (
             <div className="text-center text-sm text-muted-foreground">
               Subtotal:{" "}
               <span className="font-semibold text-foreground">
