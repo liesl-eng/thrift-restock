@@ -77,6 +77,14 @@ export function SiteHeader() {
               </Link>
             );
           })}
+          <a
+            href="https://comebackrugs.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-1.5 text-base font-bold rounded-full bg-coral text-coral-foreground hover:bg-coral/90 transition-colors shadow-sm"
+          >
+            Rug Program
+          </a>
         </nav>
 
         <div className="flex items-center gap-2">
