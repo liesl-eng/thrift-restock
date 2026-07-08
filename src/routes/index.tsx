@@ -186,7 +186,7 @@ function HomePage() {
       {/* STATS */}
       <section className="border-y border-border bg-cream" style={{ overflow: 'hidden' }}>
         <div className="container mx-auto px-4 md:px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-around items-center gap-4 md:gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
             <div className="flex flex-col items-center text-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold/20 text-gold mb-1.5">
                 <ShieldCheck className="h-4 w-4" />
