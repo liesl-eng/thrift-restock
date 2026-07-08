@@ -109,7 +109,7 @@ function FavoritesPage() {
                 <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">
                   {it.name}
                 </h3>
-                {user ? (
+                {unlocked ? (
                   <div className="mt-4 flex items-baseline gap-2">
                     <span className="font-display text-3xl font-black text-primary">
                       {formatMoney(it.price)}
@@ -120,13 +120,13 @@ function FavoritesPage() {
                   </div>
                 ) : (
                   <div className="mt-4">
-                    <Link
-                      to="/auth"
-                      search={{ redirect: "/favorites" }}
-                      className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                    <button
+                      type="button"
+                      onClick={openPrompt}
+                      className="text-sm font-semibold text-primary underline underline-offset-4 hover:text-mission"
                     >
-                      Sign in to see pricing
-                    </Link>
+                      🔒 Enter access code to see pricing
+                    </button>
                   </div>
                 )}
                 <Button asChild variant="default" className="mt-5 w-full">
