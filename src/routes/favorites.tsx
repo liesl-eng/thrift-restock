@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/lib/favorites-context";
+import { useAuth } from "@/contexts/AuthContext";
 import { Heart, ImageOff, ArrowLeft, X } from "lucide-react";
 
 function formatMoney(n: number | null): string {
