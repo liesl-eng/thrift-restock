@@ -18,6 +18,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { OrderBar } from "@/components/OrderBar";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { PricingGateProvider } from "@/contexts/PricingGateContext";
+import { PricingGateDialog } from "@/components/PricingGateDialog";
 import { Toaster } from "sonner";
 
 function NotFoundComponent() {
@@ -133,21 +135,24 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <QuoteProvider>
-          <FavoritesProvider>
-            <OrderProvider>
-              <div className="flex min-h-screen flex-col">
-                <SiteHeader />
-                <main className="flex-1">
-                  <Outlet />
-                </main>
-                <SiteFooter />
-              </div>
-              <OrderBar />
-              <Toaster richColors position="top-right" />
-            </OrderProvider>
-          </FavoritesProvider>
-        </QuoteProvider>
+        <PricingGateProvider>
+          <QuoteProvider>
+            <FavoritesProvider>
+              <OrderProvider>
+                <div className="flex min-h-screen flex-col">
+                  <SiteHeader />
+                  <main className="flex-1">
+                    <Outlet />
+                  </main>
+                  <SiteFooter />
+                </div>
+                <OrderBar />
+                <PricingGateDialog />
+                <Toaster richColors position="top-right" />
+              </OrderProvider>
+            </FavoritesProvider>
+          </QuoteProvider>
+        </PricingGateProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

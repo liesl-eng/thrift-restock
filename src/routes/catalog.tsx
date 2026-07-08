@@ -26,7 +26,7 @@ import { useOrder } from "@/contexts/OrderContext";
 
 import { Check, Plus, ShoppingBag, ImageOff, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/contexts/AuthContext";
+import { usePricingGate } from "@/contexts/PricingGateContext";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
 import meridianBlack from "@/assets/meridian-black.webp.asset.json";
 import { useInventoryRefreshedAt, formatInventoryRefreshed } from "@/hooks/useInventoryRefreshedAt";
@@ -277,7 +277,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
   const imgSrc = imageForSku(sku);
   const salePrice = Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100;
   const { toggle, isFavorite, hydrated } = useFavorites();
-  const { user } = useAuth();
+  const { unlocked, openPrompt } = usePricingGate();
   const favId = favoriteIdFor(sku);
   const favored = hydrated && isFavorite(favId);
   const [qtyOpen, setQtyOpen] = useState(false);
@@ -340,7 +340,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           <span className="rounded-full bg-mission/15 px-2 py-0.5 text-xs font-semibold text-mission">{sku.category}</span>
         </div>
         <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2 min-h-[3.5rem]">{sku.name}</h3>
-        {user ? (
+        {unlocked ? (
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
             <span className="text-sm text-muted-foreground line-through">{formatMoney(sku.msrp)}</span>
@@ -348,13 +348,13 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           </div>
         ) : (
           <div className="mt-3">
-            <Link
-              to="/auth"
-              search={{ redirect: typeof window !== "undefined" ? window.location.pathname + window.location.search : "/catalog" }}
-              className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+            <button
+              type="button"
+              onClick={openPrompt}
+              className="text-sm font-semibold text-primary underline underline-offset-4 hover:text-mission"
             >
-              Sign in to see pricing
-            </Link>
+              🔒 Enter access code to see pricing
+            </button>
           </div>
         )}
         <div className="mt-3 text-xs text-muted-foreground">
@@ -416,7 +416,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
               <Plus className="h-4 w-4" />
             </Button>
           </div>
-          {user && salePrice != null && (
+          {unlocked && salePrice != null && (
             <div className="text-center text-sm text-muted-foreground">
               Subtotal:{" "}
               <span className="font-semibold text-foreground">
