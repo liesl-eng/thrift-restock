@@ -18,6 +18,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { OrderBar } from "@/components/OrderBar";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { PricingGateProvider } from "@/contexts/PricingGateContext";
+import { PricingGateDialog } from "@/components/PricingGateDialog";
 import { Toaster } from "sonner";
 
 function NotFoundComponent() {
