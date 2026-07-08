@@ -277,7 +277,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
   const imgSrc = imageForSku(sku);
   const salePrice = Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100;
   const { toggle, isFavorite, hydrated } = useFavorites();
-  const { user } = useAuth();
+  const { unlocked, openPrompt } = usePricingGate();
   const favId = favoriteIdFor(sku);
   const favored = hydrated && isFavorite(favId);
   const [qtyOpen, setQtyOpen] = useState(false);
