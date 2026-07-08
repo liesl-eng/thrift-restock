@@ -2,7 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/lib/favorites-context";
 import { useAuth } from "@/contexts/AuthContext";
-import { Recycle, Heart, LogOut } from "lucide-react";
+import { Recycle, Heart, LogOut, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
