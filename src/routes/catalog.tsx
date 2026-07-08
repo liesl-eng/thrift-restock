@@ -134,10 +134,10 @@ function CatalogPage() {
     const sorted = [...list];
     switch (sort) {
       case "price-asc":
-        sorted.sort((a, b) => computeSalePrice(a.price ?? 0, a.brand ?? "") - computeSalePrice(b.price ?? 0, b.brand ?? ""));
+        sorted.sort((a, b) => computeSalePrice(a.price ?? 0) - computeSalePrice(b.price ?? 0));
         break;
       case "price-desc":
-        sorted.sort((a, b) => computeSalePrice(b.price ?? 0, b.brand ?? "") - computeSalePrice(a.price ?? 0, a.brand ?? ""));
+        sorted.sort((a, b) => computeSalePrice(b.price ?? 0) - computeSalePrice(a.price ?? 0));
         break;
       case "name":
         sorted.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
@@ -172,7 +172,7 @@ function CatalogPage() {
       brand: sku.brand ?? "",
       imageUrl: sku.imageUrl ?? "",
       msrp,
-      yourPrice: Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100,
+      yourPrice: Math.round(computeSalePrice(sku.price ?? 0) * 100) / 100,
       unitsAvailable: sku.unitsAvailable,
       quantity,
     });
@@ -275,7 +275,7 @@ function CatalogPage() {
 
 function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: (qty: number) => void }) {
   const imgSrc = imageForSku(sku);
-  const salePrice = Math.round(computeSalePrice(sku.price ?? 0, sku.brand ?? "") * 100) / 100;
+  const salePrice = Math.round(computeSalePrice(sku.price ?? 0) * 100) / 100;
   const { toggle, isFavorite, hydrated } = useFavorites();
   const { unlocked, openPrompt } = usePricingGate();
   const favId = favoriteIdFor(sku);
