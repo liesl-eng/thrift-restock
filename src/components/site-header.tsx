@@ -77,15 +77,21 @@ export function SiteHeader() {
               </Link>
             );
           })}
-          <a
-            href="https://comebackrugs.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-3 py-2 text-base font-bold rounded-md text-primary hover:text-primary hover:bg-secondary/60 transition-colors"
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80"
           >
-            Rug Program
-            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
+            <a
+              href="https://comebackrugs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Rug Program
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+          </Button>
         </nav>
 
         <div className="flex items-center gap-2">
