@@ -26,7 +26,7 @@ import { useOrder } from "@/contexts/OrderContext";
 
 import { Check, Plus, ShoppingBag, ImageOff, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/contexts/AuthContext";
+import { usePricingGate } from "@/contexts/PricingGateContext";
 import meridianBrushedSteel from "@/assets/meridian-brushed-steel.webp.asset.json";
 import meridianBlack from "@/assets/meridian-black.webp.asset.json";
 import { useInventoryRefreshedAt, formatInventoryRefreshed } from "@/hooks/useInventoryRefreshedAt";
