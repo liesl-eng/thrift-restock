@@ -18,14 +18,10 @@ export function formatMoney(n: number): string {
   }).format(n);
 }
 
-const MARGIN_OVERRIDES: Record<string, number> = {
-  Mopio: 0.40,
-};
-const DEFAULT_MARGIN = 0.45;
+const DEFAULT_MARGIN = 0.40;
 const MARGIN_FLOOR = 15;
 
-export function computeSalePrice(cost: number, brand: string): number {
-  const margin = MARGIN_OVERRIDES[brand] ?? DEFAULT_MARGIN;
-  return Math.max(cost / (1 - margin), cost + MARGIN_FLOOR);
+export function computeSalePrice(cost: number): number {
+  return Math.max(cost / (1 - DEFAULT_MARGIN), cost + MARGIN_FLOOR);
 }
 
