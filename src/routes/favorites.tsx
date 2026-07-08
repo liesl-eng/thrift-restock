@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useFavorites } from "@/lib/favorites-context";
+import { useAuth } from "@/contexts/AuthContext";
 import { Heart, ImageOff, ArrowLeft, X } from "lucide-react";
 
 function formatMoney(n: number | null): string {
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/favorites")({
 
 function FavoritesPage() {
   const { items, remove, hydrated } = useFavorites();
+  const { user } = useAuth();
 
   return (
     <div className="container mx-auto max-w-6xl px-4 md:px-6 py-10 md:py-14">
@@ -107,14 +109,26 @@ function FavoritesPage() {
                 <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2">
                   {it.name}
                 </h3>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-display text-3xl font-black text-primary">
-                    {formatMoney(it.price)}
-                  </span>
-                  <span className="text-sm text-muted-foreground line-through">
-                    {formatMoney(it.msrp)}
-                  </span>
-                </div>
+                {user ? (
+                  <div className="mt-4 flex items-baseline gap-2">
+                    <span className="font-display text-3xl font-black text-primary">
+                      {formatMoney(it.price)}
+                    </span>
+                    <span className="text-sm text-muted-foreground line-through">
+                      {formatMoney(it.msrp)}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="mt-4">
+                    <Link
+                      to="/auth"
+                      search={{ redirect: "/favorites" }}
+                      className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      Sign in to see pricing
+                    </Link>
+                  </div>
+                )}
                 <Button asChild variant="default" className="mt-5 w-full">
                   <Link to="/catalog">View in Catalog</Link>
                 </Button>
