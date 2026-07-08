@@ -340,7 +340,7 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           <span className="rounded-full bg-mission/15 px-2 py-0.5 text-xs font-semibold text-mission">{sku.category}</span>
         </div>
         <h3 className="mt-2 font-display text-lg font-bold text-primary line-clamp-2 min-h-[3.5rem]">{sku.name}</h3>
-        {user ? (
+        {unlocked ? (
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-display text-3xl font-black text-primary">{formatMoney(salePrice)}</span>
             <span className="text-sm text-muted-foreground line-through">{formatMoney(sku.msrp)}</span>
@@ -348,13 +348,13 @@ function SkuCard({ sku, added, onAdd }: { sku: SheetRow; added: boolean; onAdd: 
           </div>
         ) : (
           <div className="mt-3">
-            <Link
-              to="/auth"
-              search={{ redirect: typeof window !== "undefined" ? window.location.pathname + window.location.search : "/catalog" }}
-              className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+            <button
+              type="button"
+              onClick={openPrompt}
+              className="text-sm font-semibold text-primary underline underline-offset-4 hover:text-mission"
             >
-              Sign in to see pricing
-            </Link>
+              🔒 Enter access code to see pricing
+            </button>
           </div>
         )}
         <div className="mt-3 text-xs text-muted-foreground">
