@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -103,6 +103,11 @@ function CatalogPage() {
     navigate({ search: () => (c === "All" ? {} : { category: c }) });
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("qty-desc");
+
+  // Reset brand filter when category changes (e.g. header nav click)
+  useEffect(() => {
+    setBrand("All");
+  }, [category]);
 
   const { addItem, items } = useOrder();
   const refreshedAt = useInventoryRefreshedAt();
