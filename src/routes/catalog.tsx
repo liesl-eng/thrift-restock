@@ -104,6 +104,11 @@ function CatalogPage() {
   const [brand, setBrand] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("qty-desc");
 
+  // Reset brand filter when category changes (e.g. header nav click)
+  useEffect(() => {
+    setBrand("All");
+  }, [category]);
+
   const { addItem, items } = useOrder();
   const refreshedAt = useInventoryRefreshedAt();
 
