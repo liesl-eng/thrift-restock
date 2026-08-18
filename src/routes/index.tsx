@@ -12,6 +12,7 @@ import {
   Square,
   Table as TableIcon,
   Boxes,
+  Archive,
   BadgeCheck,
   Recycle,
   ShieldCheck,

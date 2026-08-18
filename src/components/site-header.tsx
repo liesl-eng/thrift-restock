@@ -18,6 +18,8 @@ const NAV: NavItem[] = [
   { to: "/catalog", label: "Tables", search: { category: "Tables" }, match: "tables" },
   { to: "/catalog", label: "Lighting", search: { category: "Lighting" }, match: "lighting" },
   { to: "/catalog", label: "Mirrors", search: { category: "Mirrors" }, match: "mirrors" },
+  { to: "/catalog", label: "Dressers", search: { category: "Dressers" }, match: "dressers" },
+  { to: "/catalog", label: "Storage", search: { category: "Storage" }, match: "storage" },
   { to: "/about", label: "About" },
 ];
 

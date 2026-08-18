@@ -57,7 +57,7 @@ function imageForSku(sku: SheetRow): string | null {
   return sku.imageUrl ?? null;
 }
 
-const CATEGORY_TABS = ["All", "Tables", "Lighting", "Mirrors"] as const;
+const CATEGORY_TABS = ["All", "Tables", "Lighting", "Mirrors", "Dressers", "Storage"] as const;
 type Category = (typeof CATEGORY_TABS)[number];
 
 type SortKey = "price-asc" | "price-desc" | "name" | "qty-asc" | "qty-desc";
@@ -86,7 +86,7 @@ export const Route = createFileRoute("/catalog")({
 
 function CatalogPage() {
   const { products, loading, error } = useCatalogProducts();
-  const VISIBLE_CATEGORIES = ["Lighting", "Mirrors", "Tables"];
+  const VISIBLE_CATEGORIES = ["Lighting", "Mirrors", "Tables", "Dressers", "Storage"];
   const visibleProducts = useMemo(
     () =>
       products.filter(
