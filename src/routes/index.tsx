@@ -71,7 +71,22 @@ const CATEGORIES = [
     accent: "bg-mission",
     icon: Square,
   },
+  {
+    name: "Dressers",
+    desc: "Dressers, chests, and nightstands for every bedroom.",
+    tags: "Chests · Nightstands",
+    accent: "bg-coral",
+    icon: Archive,
+  },
+  {
+    name: "Storage",
+    desc: "Media consoles, cabinets, sideboards, and shelving.",
+    tags: "Consoles · Cabinets · Shelving",
+    accent: "bg-gold",
+    icon: Boxes,
+  },
 ];
+
 
 const FEATURES = [
   {
