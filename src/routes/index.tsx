@@ -12,6 +12,7 @@ import {
   Square,
   Table as TableIcon,
   Boxes,
+  Archive,
   BadgeCheck,
   Recycle,
   ShieldCheck,
@@ -71,7 +72,22 @@ const CATEGORIES = [
     accent: "bg-mission",
     icon: Square,
   },
+  {
+    name: "Dressers",
+    desc: "Dressers, chests, and nightstands for every bedroom.",
+    tags: "Chests · Nightstands",
+    accent: "bg-coral",
+    icon: Archive,
+  },
+  {
+    name: "Storage",
+    desc: "Media consoles, cabinets, sideboards, and shelving.",
+    tags: "Consoles · Cabinets · Shelving",
+    accent: "bg-gold",
+    icon: Boxes,
+  },
 ];
+
 
 const FEATURES = [
   {
@@ -247,7 +263,7 @@ function HomePage() {
             <Link
               key={c.name}
               to="/catalog"
-              search={{ category: c.name }}
+              search={{ category: c.name as "Tables" | "Lighting" | "Mirrors" | "Dressers" | "Storage" }}
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
             >
               <div className={`absolute inset-x-0 top-0 h-1.5 ${c.accent}`} />
