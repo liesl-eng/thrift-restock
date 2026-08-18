@@ -263,7 +263,7 @@ function HomePage() {
             <Link
               key={c.name}
               to="/catalog"
-              search={{ category: c.name }}
+              search={{ category: c.name as "Tables" | "Lighting" | "Mirrors" | "Dressers" | "Storage" }}
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card)]"
             >
               <div className={`absolute inset-x-0 top-0 h-1.5 ${c.accent}`} />
