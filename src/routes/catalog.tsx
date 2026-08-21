@@ -102,7 +102,7 @@ function CatalogPage() {
   const setCategory = (c: Category) =>
     navigate({ search: () => (c === "All" ? {} : { category: c }) });
   const [brand, setBrand] = useState<string>("All");
-  const [sort, setSort] = useState<SortKey>("qty-desc");
+  const [sort, setSort] = useState<SortKey>("price-asc");
 
   // Reset brand filter when category changes (e.g. header nav click)
   useEffect(() => {
