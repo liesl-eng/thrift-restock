@@ -3,20 +3,20 @@ export const PRODUCT_SHEET_ID = "1ItM29QVpYh85ESpMLWVJjg13RP-ACHkSPRcGtL21yl8";
 export type BrandTab =
   | "Modus Furniture"
   | "Ferm Living"
-  | "Arteriors Home"
+  | "Mopio"
+  | "Bassett Mirror"
+  | "ART Home Furnishings"
   | "Havenly"
-  | "Hem"
-  | "Vesta"
-  | "Castlery";
+  | "Hem";
 
 export const BRAND_TABS: BrandTab[] = [
   "Modus Furniture",
   "Ferm Living",
-  "Arteriors Home",
+  "Mopio",
+  "Bassett Mirror",
+  "ART Home Furnishings",
   "Havenly",
   "Hem",
-  "Vesta",
-  "Castlery",
 ];
 
 export interface SheetRow {
