@@ -3,20 +3,20 @@ export const PRODUCT_SHEET_ID = "1ItM29QVpYh85ESpMLWVJjg13RP-ACHkSPRcGtL21yl8";
 export type BrandTab =
   | "Modus Furniture"
   | "Ferm Living"
-  | "Arteriors Home"
+  | "Mopio"
+  | "Bassett Mirror"
+  | "ART Home Furnishings"
   | "Havenly"
-  | "Hem"
-  | "Vesta"
-  | "Castlery";
+  | "Hem";
 
 export const BRAND_TABS: BrandTab[] = [
   "Modus Furniture",
   "Ferm Living",
-  "Arteriors Home",
+  "Mopio",
+  "Bassett Mirror",
+  "ART Home Furnishings",
   "Havenly",
   "Hem",
-  "Vesta",
-  "Castlery",
 ];
 
 export interface SheetRow {
@@ -114,7 +114,12 @@ export async function fetchSheetTab(tab: BrandTab): Promise<SheetRow[]> {
     const rawBrand = cleanStr(r[iBrand]) ?? tab;
     out.push({
       name,
-      brand: rawBrand === "Castlery" ? "Mopio" : rawBrand,
+      brand:
+        rawBrand === "Castlery"
+          ? "Mopio"
+          : rawBrand === "ART Home Furnishings"
+            ? "ART Home"
+            : rawBrand,
       imageUrl: (() => {
         const u = iImageUrl >= 0 ? cleanStr(r[iImageUrl]) : null;
         if (!u) return null;

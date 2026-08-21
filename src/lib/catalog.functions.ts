@@ -6,11 +6,11 @@ const SPREADSHEET_ID = "1ItM29QVpYh85ESpMLWVJjg13RP-ACHkSPRcGtL21yl8";
 const TABS = [
   "Modus Furniture",
   "Ferm Living",
-  "Arteriors Home",
+  "Mopio",
+  "Bassett Mirror",
+  "ART Home Furnishings",
   "Havenly",
   "Hem",
-  "Vesta",
-  "Castlery",
 ];
 
 // ---------- helpers ----------
