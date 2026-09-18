@@ -101,8 +101,12 @@ export function PricingGateDialog() {
             <Input
               id="access-code"
               autoFocus
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
+              value={display}
+              onChange={handleChange}
+              inputMode="text"
+              autoCapitalize="characters"
+              spellCheck={false}
+              className="tracking-widest"
               placeholder="Enter your code"
               autoComplete="off"
             />
