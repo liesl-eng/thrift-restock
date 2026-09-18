@@ -18,6 +18,39 @@ export function PricingGateDialog() {
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [revealLast, setRevealLast] = useState(false);
+  const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (revealTimer.current) clearTimeout(revealTimer.current);
+    };
+  }, []);
+
+  const display =
+    code.length === 0
+      ? ""
+      : revealLast
+        ? "•".repeat(code.length - 1) + code[code.length - 1]
+        : "•".repeat(code.length);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = e.target.value.toUpperCase();
+    let updated: string;
+    if (next.length > code.length) {
+      updated = code + next.slice(code.length);
+    } else {
+      updated = code.slice(0, next.length);
+    }
+    setCode(updated);
+    if (revealTimer.current) clearTimeout(revealTimer.current);
+    if (next.length > code.length) {
+      setRevealLast(true);
+      revealTimer.current = setTimeout(() => setRevealLast(false), 700);
+    } else {
+      setRevealLast(false);
+    }
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
