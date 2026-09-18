@@ -15,6 +15,7 @@ type NavItem = {
 
 const NAV: NavItem[] = [
   { to: "/", label: "Home" },
+  { to: "/catalog", label: "All", match: "all" },
   { to: "/catalog", label: "Tables", search: { category: "Tables" }, match: "tables" },
   { to: "/catalog", label: "Lighting", search: { category: "Lighting" }, match: "lighting" },
   { to: "/catalog", label: "Mirrors", search: { category: "Mirrors" }, match: "mirrors" },
@@ -56,7 +57,9 @@ export function SiteHeader() {
             const active = isCatalog
               ? pathname.startsWith("/catalog") &&
                 n.match != null &&
-                (search?.category ?? "").toLowerCase() === n.match
+                (n.match === "all"
+                  ? !search?.category || search.category.toLowerCase() === "all"
+                  : (search?.category ?? "").toLowerCase() === n.match)
               : n.to === "/"
                 ? pathname === "/"
                 : pathname === n.to || pathname.startsWith(n.to);
