@@ -18,10 +18,7 @@ export function formatMoney(n: number): string {
   }).format(n);
 }
 
-const DEFAULT_MARGIN = 0.40;
-const MARGIN_FLOOR = 15;
-
 export function computeSalePrice(cost: number): number {
-  return Math.max(cost / (1 - DEFAULT_MARGIN), cost + MARGIN_FLOOR);
+  return cost;
 }
 
