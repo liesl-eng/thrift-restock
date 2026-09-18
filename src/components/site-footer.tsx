@@ -17,7 +17,7 @@ export function SiteFooter() {
             </div>
             <p className="mt-4 max-w-md text-sm text-primary-foreground/75 leading-relaxed">
               A direct-from-returns inventory program built for nonprofit thrift
-              retailers. Less landfill. Better margins. More jobs at home.
+              retailers. Less landfill. Better margins.
             </p>
           </div>
           <div>
@@ -38,7 +38,6 @@ export function SiteFooter() {
         </div>
         <div className="mt-12 pt-6 border-t border-primary-foreground/15 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-primary-foreground/60">
           <p>© {new Date().getFullYear()} Comeback Restock. Built for thrift.</p>
-          <p>Not affiliated with Goodwill Industries International. Branding shown for partner outreach.</p>
         </div>
       </div>
     </footer>
